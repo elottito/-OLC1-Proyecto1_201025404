@@ -25,6 +25,13 @@ import java_cup.runtime.Symbol;
 	StringBuffer string = new StringBuffer();
 	String strCadena = ""; //Se utiliza para obtener un String sin las comillas
 	
+	/**
+	* Metodo que almacena los errores lexicos que se encuentren
+	* @param lexema Lexema.
+	* @param fila Lexema.
+	* @param columna Lexema.
+	* @return Nothing.
+	*/
 	public void findErrorLexico(String lexema, int fila, int columna){
 		System.out.println("Error Lexico: -----> " + lexema + "\t[" + fila + "," + columna + "]");
 	}
@@ -118,7 +125,7 @@ COMENTARIOS 			= {COMENTARIO_SIMPLE} | {COMENTARIO_MULTILINEA}
 
 	// Espacios en Blanco
 	{BLANCOS}			{	/* Se Ignoran los Espacios en Blanco*/	}
-	{COMENTARIOS}		{	/* Se Ignoran los Comentarios*/	}
+	{COMENTARIOS}		{	/* Se Ignoran los Comentarios*/			}
 
 	// Errores Lexicos
 	.					{	findErrorLexico(yytext(), yyline, yycolumn); }

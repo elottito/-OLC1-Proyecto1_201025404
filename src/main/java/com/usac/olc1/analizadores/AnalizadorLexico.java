@@ -255,6 +255,13 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 	StringBuffer string = new StringBuffer();
 	String strCadena = ""; //Se utiliza para obtener un String sin las comillas
 	
+	/**
+	* Metodo que almacena los errores lexicos que se encuentren
+	* @param lexema Lexema.
+	* @param fila Lexema.
+	* @param columna Lexema.
+	* @return Nothing.
+	*/
 	public void findErrorLexico(String lexema, int fila, int columna){
 		System.out.println("Error Lexico: -----> " + lexema + "\t[" + fila + "," + columna + "]");
 	}
