@@ -4,7 +4,7 @@ public class GenerarSintactico {
 
     public static void main(String[] args)
     {
-        String opciones[] = new String[7]; 
+        String[] opciones = new String[7]; 
         opciones[0] = "-destdir";       //Seleccionamos la opción de dirección de destino
         opciones[1] = "src/main/java/com/usac/olc1/analizadores";   //Ubicacion para las siguientes clases
         opciones[2] = "-symbols";       //Seleccionamos la opción de nombre de archivo simbolos

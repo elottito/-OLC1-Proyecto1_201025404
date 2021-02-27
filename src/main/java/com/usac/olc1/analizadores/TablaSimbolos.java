@@ -8,36 +8,34 @@ package com.usac.olc1.analizadores;
 /** CUP generated class containing symbol constants. */
 public class TablaSimbolos {
   /* terminals */
-  public static final int PUNTO = 12;
-  public static final int CADENA = 20;
-  public static final int DOSPUNTOS = 5;
-  public static final int BARRA = 13;
-  public static final int FLECHA = 6;
-  public static final int ID = 22;
-  public static final int COMILLAS = 4;
-  public static final int POR = 14;
-  public static final int PORCENTAJE = 10;
+  public static final int PUNTO = 11;
+  public static final int CADENA = 19;
+  public static final int DOSPUNTOS = 4;
+  public static final int BARRA = 12;
+  public static final int FLECHA = 5;
+  public static final int ID = 21;
+  public static final int POR = 13;
+  public static final int PORCENTAJE = 9;
   public static final int COMA = 3;
-  public static final int SIM_COM_DOB = 18;
-  public static final int SIM_COM_SIM = 19;
+  public static final int SIM_COM_DOB = 17;
+  public static final int SIM_COM_SIM = 18;
   public static final int EOF = 0;
-  public static final int SIMBOLO = 23;
+  public static final int SIMBOLO = 22;
   public static final int CONJ = 2;
-  public static final int NUMERO = 21;
+  public static final int NUMERO = 20;
   public static final int error = 1;
-  public static final int LLAVE_C = 8;
-  public static final int SALTO_LINEA = 17;
-  public static final int VIRGULILLA = 11;
-  public static final int PUNTOCOMA = 9;
-  public static final int LLAVE_A = 7;
-  public static final int INTER = 16;
-  public static final int MAS = 15;
+  public static final int LLAVE_C = 7;
+  public static final int VIRGULILLA = 10;
+  public static final int SALTO_LINEA = 16;
+  public static final int PUNTOCOMA = 8;
+  public static final int LLAVE_A = 6;
+  public static final int INTER = 15;
+  public static final int MAS = 14;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "CONJ",
   "COMA",
-  "COMILLAS",
   "DOSPUNTOS",
   "FLECHA",
   "LLAVE_A",

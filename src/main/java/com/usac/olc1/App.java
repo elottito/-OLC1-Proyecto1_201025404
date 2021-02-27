@@ -15,7 +15,12 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        //Ruta de Archivo de Pruebas
+        String strRuta = "C:\\pruebas\\archivo.olc";
+        ManejoArchivo ma = new ManejoArchivo();
+        String strTexto = ma.getTexto(strRuta);
+        System.out.println(strTexto);
+        ma.correrArchivo(strTexto);
         
     }
 }

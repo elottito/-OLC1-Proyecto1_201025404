@@ -13,15 +13,15 @@ parser code {:
 		int fila = s.right + 1;
 		int columna = s.left + 1;
 		String lexema = (String) s.value;
-		System.err.println("Error Sintactico (Recuperado) Lexema [" + lexema + "] Fila: [" + fila + "] Columna: [" + columna + "]");
+		System.err.println("Error Sintactico (Recuperado)\t\tLexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
 	}
 
 	// Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores.
 	public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
-		int Fila = s.right + 1;
-		int Columna = s.left + 1;
-		String Lexema = (String) s.value;
-		System.out.println("Error Sintactico (No Recuperable) Lexema [" + Lexema + "] Fila: [" + Fila + "] Columna: [" + Columna + "]");
+		int fila = s.right + 1;
+		int columna = s.left + 1;
+		String lexema = (String) s.value;
+		System.out.println("Error Sintactico (No Recuperable)\tLexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
 	}
 :}
 
@@ -35,13 +35,13 @@ action code {:
 
 // T E R M I N A L E S
 terminal	CONJ;
-terminal 	COMA, COMILLAS, DOSPUNTOS, FLECHA, LLAVE_A, LLAVE_C, PUNTOCOMA;
+terminal 	COMA, DOSPUNTOS, FLECHA, LLAVE_A, LLAVE_C, PUNTOCOMA;
 terminal	PORCENTAJE, VIRGULILLA, PUNTO, BARRA, POR, MAS, INTER, SALTO_LINEA;
 terminal	SIM_COM_DOB, SIM_COM_SIM; 
 terminal	CADENA, NUMERO, ID, SIMBOLO;
 
 // N O    T E R M I N A L E S					
-non terminal	inicio, lista_exp, exp;
+non terminal	inicio, lista, exp;
 
 /* -----------------------------------------------------------------------
 					I N I C I O   G R A M A T I C A
@@ -49,9 +49,10 @@ non terminal	inicio, lista_exp, exp;
 
 start with inicio;
 
-inicio ::= lista_exp exp | exp;
+inicio ::= lista;
+lista ::= lista exp | exp;
 exp ::= 	CONJ | 
-			COMA | COMILLAS | DOSPUNTOS | FLECHA | LLAVE_A | LLAVE_C | PUNTOCOMA |
+			COMA | DOSPUNTOS | FLECHA | LLAVE_A | LLAVE_C | PUNTOCOMA |
 			PORCENTAJE | VIRGULILLA | PUNTO | BARRA | POR | MAS |INTER | SALTO_LINEA |
 			SIM_COM_DOB | SIM_COM_SIM |
 			CADENA | NUMERO | ID | SIMBOLO ;
