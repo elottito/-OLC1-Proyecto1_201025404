@@ -26,17 +26,17 @@
       <scope>test</scope>
     </dependency>
     
-    <!-- JFLEX https://mvnrepository.com/artifact/de.jflex/jflex -->
+    <!-- JFLEX -->
     <dependency>
         <groupId>de.jflex</groupId>
         <artifactId>jflex</artifactId>
-        <version>1.8.2</version>
+        <version>1.6.1</version>
     </dependency>
 
-    <!-- JAVA CUP 11 https://mvnrepository.com/artifact/com.github.vbmacher/java-cup-runtime -->
+    <!-- CUP -->
     <dependency>
         <groupId>com.github.vbmacher</groupId>
-        <artifactId>java-cup-runtime</artifactId>
+        <artifactId>java-cup</artifactId>
         <version>11b-20160615</version>
     </dependency>
 
