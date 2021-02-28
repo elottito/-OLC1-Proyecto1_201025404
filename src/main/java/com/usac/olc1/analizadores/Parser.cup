@@ -34,9 +34,9 @@ action code {:
 ------------------------------ */
 
 // T E R M I N A L E S
-terminal	conj, flecha;
-terminal 	coma, dospuntos, llave_a, llave_c, puntocoma;
-terminal	porcentaje, virgulilla, punto, barra, por, mas, inter;
+terminal	conj, flecha, percent_d;
+terminal 	coma, dospuntos, llave_a, llave_c, puntocoma, virgulilla;
+terminal	punto, barra, por, mas, inter;
 terminal	simbolo, sim_com_dob, sim_com_sim, salto_linea; 
 terminal	cadena, letra, numero, id;
 
@@ -46,6 +46,10 @@ non terminal	CONJUNTO, DEFINICION, INTERVALO, LISTACARACTER;
 non terminal	EXPREREGULAR, EXPR, VALIDAR;
 non terminal	IDENTIFICADOR, CARACTER, ESPECIAL;
 
+// Precedencias
+precedence left barra;	// Disyuncion
+precedence left punto;	// Concatenacion
+precedence left por, mas, inter;	// Cerradura de Kleane
 
 /* -----------------------------------------------------------------------
 					I N I C I O   G R A M A T I C A
@@ -80,10 +84,10 @@ EXPR			::= punto EXPR EXPR
 VALIDAR ::= IDENTIFICADOR dospuntos cadena puntocoma | error;
 
 //Otras Declaraciones
-SEPARADOR		::= porcentaje porcentaje porcentaje porcentaje | error;
+SEPARADOR		::= percent_d percent_d | error;
 IDENTIFICADOR 	::= id | letra;
 CARACTER 		::= letra | numero | simbolo | 
-					coma | dospuntos | llave_a | llave_c | puntocoma | porcentaje | 
+					coma | dospuntos | llave_a | llave_c | puntocoma |  
 					punto | barra | por | mas | inter |
 					ESPECIAL;
 ESPECIAL		::= sim_com_dob | sim_com_sim | salto_linea;
