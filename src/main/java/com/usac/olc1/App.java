@@ -1,5 +1,9 @@
 package com.usac.olc1;
 
+import java.util.ArrayList;
+
+import com.usac.olc1.nodos.Errores;
+
 /**
  * Universidad de San Carlos de Guatemala
  * Facultad de Ingenieria
@@ -13,6 +17,8 @@ package com.usac.olc1;
  */
 public class App 
 {
+    // Lista de Errores
+    public static ArrayList<Errores> listaErrores = new ArrayList<Errores>();
     public static void main( String[] args )
     {
         //Ruta de Archivo de Pruebas
@@ -21,6 +27,9 @@ public class App
         String strTexto = ma.getTexto(strRuta);
         System.out.println(strTexto);
         ma.correrArchivo(strTexto);
-        
+
+        //GenerarHTML
+        GenerarHTML gh = new GenerarHTML();
+        gh.crearHtmlError();
     }
 }

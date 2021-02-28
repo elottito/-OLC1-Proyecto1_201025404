@@ -3,6 +3,9 @@
 -------------------------------------- */
 package com.usac.olc1.analizadores;
 import java_cup.runtime.Symbol;
+
+import com.usac.olc1.App;
+import com.usac.olc1.nodos.Errores;
 %%
 
 /* ---------------------------------------------------
@@ -47,7 +50,10 @@ import java_cup.runtime.Symbol;
 	public void findErrorLexico(String lexema, int fila, int columna){
 		fila = fila + 1;
 		columna = columna + 1;
+		String descripcion = "Error Léxico Recuperado<br>El caracter <b>" + lexema + "</b> no pertenece al lenguaje";
 		System.out.println("Error Lexico: -----> " + lexema + "\t[" + fila + "," + columna + "]");
+		Errores errorLexico = new Errores(fila, columna, lexema, descripcion);
+		App.listaErrores.add(errorLexico);
 	}
 %}
 
@@ -102,42 +108,42 @@ COMENTARIOS 			= {COMENTARIO_SIMPLE} | {COMENTARIO_MULTILINEA}
 ------------------------------------------ */
 <YYINITIAL>{
 	// Palabras Reservadas
-	{CONJ} 				{	finToken(yytext(), yyline, yycolumn, "Palabra Res");	return new Symbol(TablaSimbolos.conj, 			yycolumn, yyline, yytext()); }
+	{CONJ} 				{	return new Symbol(TablaSimbolos.conj, 			yycolumn, yyline, yytext()); }
 
 	// Simbolos
-	{COMA}				{	finToken(yytext(), yyline, yycolumn, "Coma       ");	return new Symbol(TablaSimbolos.coma,			yycolumn, yyline, yytext()); }
-	{DOSPUNTOS}			{	finToken(yytext(), yyline, yycolumn, "DosPuntos  ");	return new Symbol(TablaSimbolos.dospuntos,		yycolumn, yyline, yytext()); }
-	{FLECHA}			{	finToken(yytext(), yyline, yycolumn, "Flecha     ");	return new Symbol(TablaSimbolos.flecha,			yycolumn, yyline, yytext()); }
-	{LLAVE_A}			{	finToken(yytext(), yyline, yycolumn, "Llave_A    ");	return new Symbol(TablaSimbolos.llave_a,		yycolumn, yyline, yytext()); }
-	{LLAVE_C}			{	finToken(yytext(), yyline, yycolumn, "Llave_C    ");	return new Symbol(TablaSimbolos.llave_c,		yycolumn, yyline, yytext()); }
-	{PUNTOCOMA}			{	finToken(yytext(), yyline, yycolumn, "PuntoComa  ");	return new Symbol(TablaSimbolos.puntocoma,		yycolumn, yyline, yytext()); }
-	{PERCENT_D}			{	finToken(yytext(), yyline, yycolumn, "Porcent Dob");	return new Symbol(TablaSimbolos.percent_d,		yycolumn, yyline, yytext()); }
-	{VIRGULILLA}		{	finToken(yytext(), yyline, yycolumn, "Virgulilla ");	return new Symbol(TablaSimbolos.virgulilla,		yycolumn, yyline, yytext()); }
+	{COMA}				{	return new Symbol(TablaSimbolos.coma,			yycolumn, yyline, yytext()); }
+	{DOSPUNTOS}			{	return new Symbol(TablaSimbolos.dospuntos,		yycolumn, yyline, yytext()); }
+	{FLECHA}			{	return new Symbol(TablaSimbolos.flecha,			yycolumn, yyline, yytext()); }
+	{LLAVE_A}			{	return new Symbol(TablaSimbolos.llave_a,		yycolumn, yyline, yytext()); }
+	{LLAVE_C}			{	return new Symbol(TablaSimbolos.llave_c,		yycolumn, yyline, yytext()); }
+	{PUNTOCOMA}			{	return new Symbol(TablaSimbolos.puntocoma,		yycolumn, yyline, yytext()); }
+	{PERCENT_D}			{	return new Symbol(TablaSimbolos.percent_d,		yycolumn, yyline, yytext()); }
+	{VIRGULILLA}		{	return new Symbol(TablaSimbolos.virgulilla,		yycolumn, yyline, yytext()); }
 
 	//Operadores
-	{PUNTO}				{	finToken(yytext(), yyline, yycolumn, "Punto      ");	return new Symbol(TablaSimbolos.punto,			yycolumn, yyline, yytext()); }
-	{BARRA}				{	finToken(yytext(), yyline, yycolumn, "Barra      ");	return new Symbol(TablaSimbolos.barra,			yycolumn, yyline, yytext()); }
-	{POR}				{	finToken(yytext(), yyline, yycolumn, "Por        ");	return new Symbol(TablaSimbolos.por,			yycolumn, yyline, yytext()); }
-	{MAS}				{	finToken(yytext(), yyline, yycolumn, "Mas        ");	return new Symbol(TablaSimbolos.mas,			yycolumn, yyline, yytext()); }
-	{INTER}				{	finToken(yytext(), yyline, yycolumn, "Inter      ");	return new Symbol(TablaSimbolos.inter,			yycolumn, yyline, yytext()); }
+	{PUNTO}				{	return new Symbol(TablaSimbolos.punto,			yycolumn, yyline, yytext()); }
+	{BARRA}				{	return new Symbol(TablaSimbolos.barra,			yycolumn, yyline, yytext()); }
+	{POR}				{	return new Symbol(TablaSimbolos.por,			yycolumn, yyline, yytext()); }
+	{MAS}				{	return new Symbol(TablaSimbolos.mas,			yycolumn, yyline, yytext()); }
+	{INTER}				{	return new Symbol(TablaSimbolos.inter,			yycolumn, yyline, yytext()); }
 
 	//Simbolos Especiales
-	{SALTO_LINEA}		{	finToken(yytext(), yyline, yycolumn, "Salto Linea");	return new Symbol(TablaSimbolos.salto_linea,	yycolumn, yyline, yytext()); }
-	{SIM_COM_DOB}		{	finToken(yytext(), yyline, yycolumn, "ComillaDobl");	return new Symbol(TablaSimbolos.sim_com_dob,	yycolumn, yyline, yytext()); }
-	{SIM_COM_SIM}		{	finToken(yytext(), yyline, yycolumn, "ComillaSimp");	return new Symbol(TablaSimbolos.sim_com_sim,	yycolumn, yyline, yytext()); }
+	{SALTO_LINEA}		{	return new Symbol(TablaSimbolos.salto_linea,	yycolumn, yyline, yytext()); }
+	{SIM_COM_DOB}		{	return new Symbol(TablaSimbolos.sim_com_dob,	yycolumn, yyline, yytext()); }
+	{SIM_COM_SIM}		{	return new Symbol(TablaSimbolos.sim_com_sim,	yycolumn, yyline, yytext()); }
 
 	// Cadena
 	{COMILLA}			{	yybegin(CADENA);	}
 	
 	// Expresiones Regulares
-	{LETRA}				{	finToken(yytext(), yyline, yycolumn, "Letra      ");	return new Symbol(TablaSimbolos.letra, 			yycolumn, yyline, yytext()); }
-	{NUMERO}			{	finToken(yytext(), yyline, yycolumn, "Numero     ");	return new Symbol(TablaSimbolos.numero, 		yycolumn, yyline, yytext()); }
-	{ID}				{	finToken(yytext(), yyline, yycolumn, "Id         ");	return new Symbol(TablaSimbolos.id, 			yycolumn, yyline, yytext()); }
-	{SIMBOLO}			{	finToken(yytext(), yyline, yycolumn, "Simbolo    ");	return new Symbol(TablaSimbolos.simbolo, 		yycolumn, yyline, yytext()); }
+	{LETRA}				{	return new Symbol(TablaSimbolos.letra, 			yycolumn, yyline, yytext()); }
+	{NUMERO}			{	return new Symbol(TablaSimbolos.numero, 		yycolumn, yyline, yytext()); }
+	{ID}				{	return new Symbol(TablaSimbolos.id, 			yycolumn, yyline, yytext()); }
+	{SIMBOLO}			{	return new Symbol(TablaSimbolos.simbolo, 		yycolumn, yyline, yytext()); }
 
 	// Espacios en Blanco
-	{BLANCOS}			{	/* Se Ignoran los Espacios en Blanco*/	}
-	{COMENTARIOS}		{	/* Se Ignoran los Comentarios*/			}
+	{BLANCOS}			{	/* Se Ignoran los Espacios en Blanco*/		}
+	{COMENTARIOS}		{	/* Se Ignoran los Comentarios*/				}
 
 	// Errores Lexicos
 	.					{	findErrorLexico(yytext(), yyline, yycolumn); }
@@ -150,7 +156,6 @@ COMENTARIOS 			= {COMENTARIO_SIMPLE} | {COMENTARIO_MULTILINEA}
 		String strTemporal = strCadena;
 		strCadena = ""; // Se limpia para que una siguiente cadena que pueda venir
 		yybegin(YYINITIAL);
-		finToken(strTemporal, yyline, yycolumn, "Cadena     ");
 		return new Symbol(TablaSimbolos.cadena, yycolumn, yyline, strTemporal);
 	}
 	[^"\""]				{   strCadena += yytext();  }
