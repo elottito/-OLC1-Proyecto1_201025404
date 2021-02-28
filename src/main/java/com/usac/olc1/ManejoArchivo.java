@@ -56,6 +56,10 @@ public class ManejoArchivo {
         return strTexto;
     }
 
+    /**
+     * Ejecuta los Analisis Lexicos y Sintacticos
+     * @param texto codigo del archivo
+     */
     public void correrArchivo(String texto) {
         limpiarListas();
         try {

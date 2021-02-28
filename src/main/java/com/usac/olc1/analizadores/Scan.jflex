@@ -63,7 +63,7 @@ FLECHA		= "->"
 LLAVE_A		= "{"
 LLAVE_C		= "}"
 PUNTOCOMA	= ";"
-PORCENTAJE	= "%"
+PERCENT_D	= "%%"
 VIRGULILLA	= "~"
 
 //Operadores
@@ -111,7 +111,7 @@ COMENTARIOS 			= {COMENTARIO_SIMPLE} | {COMENTARIO_MULTILINEA}
 	{LLAVE_A}			{	finToken(yytext(), yyline, yycolumn, "Llave_A    ");	return new Symbol(TablaSimbolos.llave_a,		yycolumn, yyline, yytext()); }
 	{LLAVE_C}			{	finToken(yytext(), yyline, yycolumn, "Llave_C    ");	return new Symbol(TablaSimbolos.llave_c,		yycolumn, yyline, yytext()); }
 	{PUNTOCOMA}			{	finToken(yytext(), yyline, yycolumn, "PuntoComa  ");	return new Symbol(TablaSimbolos.puntocoma,		yycolumn, yyline, yytext()); }
-	{PORCENTAJE}		{	finToken(yytext(), yyline, yycolumn, "Porcentaje ");	return new Symbol(TablaSimbolos.porcentaje,		yycolumn, yyline, yytext()); }
+	{PERCENT_D}			{	finToken(yytext(), yyline, yycolumn, "Porcent Dob");	return new Symbol(TablaSimbolos.percent_d,		yycolumn, yyline, yytext()); }
 	{VIRGULILLA}		{	finToken(yytext(), yyline, yycolumn, "Virgulilla ");	return new Symbol(TablaSimbolos.virgulilla,		yycolumn, yyline, yytext()); }
 
 	//Operadores
@@ -133,8 +133,7 @@ COMENTARIOS 			= {COMENTARIO_SIMPLE} | {COMENTARIO_MULTILINEA}
 	{LETRA}				{	finToken(yytext(), yyline, yycolumn, "Letra      ");	return new Symbol(TablaSimbolos.letra, 			yycolumn, yyline, yytext()); }
 	{NUMERO}			{	finToken(yytext(), yyline, yycolumn, "Numero     ");	return new Symbol(TablaSimbolos.numero, 		yycolumn, yyline, yytext()); }
 	{ID}				{	finToken(yytext(), yyline, yycolumn, "Id         ");	return new Symbol(TablaSimbolos.id, 			yycolumn, yyline, yytext()); }
-	{SIMBOLO}			{	finToken(yytext(), yyline, yycolumn, "Simbolo    ");	return new Symbol(TablaSimbolos.simbolo, 		yycolumn, yyline, yytext()); 
-						}
+	{SIMBOLO}			{	finToken(yytext(), yyline, yycolumn, "Simbolo    ");	return new Symbol(TablaSimbolos.simbolo, 		yycolumn, yyline, yytext()); }
 
 	// Espacios en Blanco
 	{BLANCOS}			{	/* Se Ignoran los Espacios en Blanco*/	}

@@ -11,38 +11,38 @@ public class TablaSimbolos {
   public static final int sim_com_dob = 17;
   public static final int sim_com_sim = 18;
   public static final int cadena = 20;
-  public static final int coma = 4;
+  public static final int percent_d = 4;
+  public static final int coma = 5;
   public static final int numero = 22;
   public static final int flecha = 3;
-  public static final int llave_c = 7;
+  public static final int llave_c = 8;
   public static final int inter = 15;
   public static final int por = 13;
-  public static final int porcentaje = 9;
-  public static final int llave_a = 6;
+  public static final int llave_a = 7;
   public static final int conj = 2;
   public static final int punto = 11;
   public static final int EOF = 0;
   public static final int letra = 21;
   public static final int id = 23;
   public static final int simbolo = 16;
-  public static final int puntocoma = 8;
+  public static final int puntocoma = 9;
   public static final int virgulilla = 10;
   public static final int error = 1;
   public static final int barra = 12;
   public static final int mas = 14;
   public static final int salto_linea = 19;
-  public static final int dospuntos = 5;
+  public static final int dospuntos = 6;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "conj",
   "flecha",
+  "percent_d",
   "coma",
   "dospuntos",
   "llave_a",
   "llave_c",
   "puntocoma",
-  "porcentaje",
   "virgulilla",
   "punto",
   "barra",
