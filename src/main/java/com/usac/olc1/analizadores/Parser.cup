@@ -13,7 +13,7 @@ parser code {:
 		int fila = s.right + 1;
 		int columna = s.left + 1;
 		String lexema = (String) s.value;
-		System.err.println("Error Sintactico (Recuperado)\t\tLexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
+		System.err.println("Error Sintactico (Recuperado)\tLexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
 	}
 
 	// Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores.
@@ -21,7 +21,7 @@ parser code {:
 		int fila = s.right + 1;
 		int columna = s.left + 1;
 		String lexema = (String) s.value;
-		System.out.println("Error Sintactico (No Recuperable)\tLexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
+		System.out.println("Error Sintactico (No Recuperable) Lexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
 	}
 :}
 
@@ -34,14 +34,18 @@ action code {:
 ------------------------------ */
 
 // T E R M I N A L E S
-terminal	CONJ;
-terminal 	COMA, DOSPUNTOS, FLECHA, LLAVE_A, LLAVE_C, PUNTOCOMA;
-terminal	PORCENTAJE, VIRGULILLA, PUNTO, BARRA, POR, MAS, INTER, SALTO_LINEA;
-terminal	SIM_COM_DOB, SIM_COM_SIM; 
-terminal	CADENA, NUMERO, ID, SIMBOLO;
+terminal	CONJ, FLECHA;
+terminal 	COMA, DOSPUNTOS, LLAVE_A, LLAVE_C, PUNTOCOMA;
+terminal	PORCENTAJE, VIRGULILLA, PUNTO, BARRA, POR, MAS, INTER;
+terminal	SIMBOLO, SIM_COM_DOB, SIM_COM_SIM, SALTO_LINEA; 
+terminal	CADENA, LETRA, NUMERO, ID;
 
 // N O    T E R M I N A L E S					
-non terminal	inicio, lista, exp;
+non terminal	inicio, lista_stmt, stmt, separador, lista_validar;
+non terminal	conjunto, definicion, intervalo, listaCaracter;
+non terminal	expreRegular, expr, validar;
+non terminal	identificador, caracter, especial;
+
 
 /* -----------------------------------------------------------------------
 					I N I C I O   G R A M A T I C A
@@ -49,10 +53,37 @@ non terminal	inicio, lista, exp;
 
 start with inicio;
 
-inicio ::= lista;
-lista ::= lista exp | exp;
-exp ::= 	CONJ | 
-			COMA | DOSPUNTOS | FLECHA | LLAVE_A | LLAVE_C | PUNTOCOMA |
-			PORCENTAJE | VIRGULILLA | PUNTO | BARRA | POR | MAS |INTER | SALTO_LINEA |
-			SIM_COM_DOB | SIM_COM_SIM |
-			CADENA | NUMERO | ID | SIMBOLO ;
+inicio 			::= LLAVE_A lista_stmt separador lista_validar LLAVE_C;
+lista_stmt 		::= lista_stmt stmt | stmt;
+stmt			::= conjunto | expreRegular;
+lista_validar	::= lista_validar validar | validar;
+
+//Conjuntos
+conjunto 		::=	CONJ DOSPUNTOS identificador FLECHA definicion PUNTOCOMA;
+definicion		::=	intervalo | listaCaracter | error;
+intervalo		::=	caracter VIRGULILLA caracter;
+listaCaracter	::= listaCaracter COMA caracter | caracter;
+
+//Expresiones Regulares
+expreRegular	::= identificador FLECHA expr PUNTOCOMA;
+expr			::= PUNTO expr expr 
+					| BARRA expr expr 
+					| POR expr 
+					| MAS expr 
+					| INTER expr 
+					| LLAVE_A identificador LLAVE_C 
+					| CADENA 
+					| especial
+					| error;
+
+//Validar definiciones
+validar ::= identificador DOSPUNTOS CADENA PUNTOCOMA | error;
+
+//Otras Declaraciones
+separador		::= PORCENTAJE PORCENTAJE PORCENTAJE PORCENTAJE | error;
+identificador 	::= ID | LETRA;
+caracter 		::= LETRA | NUMERO | SIMBOLO | 
+					COMA | DOSPUNTOS | LLAVE_A | LLAVE_C | PUNTOCOMA | PORCENTAJE | 
+					PUNTO | BARRA | POR | MAS | INTER |
+					especial;
+especial		::= SIM_COM_DOB | SIM_COM_SIM | SALTO_LINEA;

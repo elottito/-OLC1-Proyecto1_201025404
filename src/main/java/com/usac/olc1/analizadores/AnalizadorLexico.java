@@ -57,12 +57,12 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final String ZZ_ACTION_PACKED_0 =
     "\2\0\1\1\2\2\1\3\1\4\1\5\2\6\1\7"+
     "\1\10\1\11\1\12\1\13\1\14\1\15\1\16\1\17"+
-    "\1\20\1\6\1\21\2\22\2\6\1\23\1\24\1\2"+
-    "\1\25\1\26\1\27\1\30\1\31\1\0\1\2\2\31"+
-    "\2\0\1\32\1\0";
+    "\1\20\1\6\1\21\2\22\2\6\1\23\1\24\2\25"+
+    "\1\26\1\27\1\30\1\31\1\32\1\0\1\25\2\32"+
+    "\2\0\1\33\1\0";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[42];
+    int [] result = new int[43];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -90,12 +90,12 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
     "\0\0\0\42\0\104\0\146\0\210\0\104\0\104\0\104"+
     "\0\252\0\104\0\104\0\104\0\104\0\104\0\104\0\104"+
     "\0\104\0\104\0\104\0\104\0\314\0\104\0\104\0\356"+
-    "\0\u0110\0\u0132\0\104\0\104\0\u0154\0\104\0\104\0\104"+
-    "\0\104\0\u0176\0\u0198\0\u01ba\0\104\0\u01dc\0\u01fe\0\u0220"+
-    "\0\210\0\u0242";
+    "\0\u0110\0\u0132\0\104\0\104\0\210\0\u0154\0\104\0\104"+
+    "\0\104\0\104\0\u0176\0\u0198\0\u01ba\0\104\0\u01dc\0\u01fe"+
+    "\0\u0220\0\210\0\u0242";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[42];
+    int [] result = new int[43];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -122,15 +122,15 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
     "\1\13\1\14\1\15\1\16\1\17\1\20\1\21\1\22"+
     "\1\23\1\24\1\25\1\5\1\12\1\26\1\5\2\12"+
     "\1\27\1\30\1\27\1\31\1\32\1\12\1\0\6\33"+
-    "\1\34\33\33\43\0\1\5\1\35\2\5\20\0\1\5"+
-    "\1\0\3\5\11\0\4\5\20\0\1\5\1\0\3\5"+
-    "\21\0\1\36\36\0\1\37\16\0\1\40\1\41\46\0"+
-    "\1\27\44\0\1\42\43\0\1\43\2\0\2\5\1\44"+
-    "\1\5\20\0\1\5\1\0\3\5\10\0\33\42\1\45"+
-    "\1\46\5\42\40\47\1\50\1\47\1\0\3\5\1\51"+
-    "\20\0\1\5\1\0\3\5\43\0\1\45\6\0\40\47"+
-    "\1\52\1\47\11\0\1\45\26\0\1\50\1\0\11\47"+
-    "\1\45\26\47\1\52\1\47";
+    "\1\34\33\33\43\0\1\35\1\36\2\35\20\0\1\35"+
+    "\1\0\3\35\11\0\4\35\20\0\1\35\1\0\3\35"+
+    "\21\0\1\37\36\0\1\40\16\0\1\41\1\42\46\0"+
+    "\1\27\44\0\1\43\43\0\1\44\2\0\2\35\1\45"+
+    "\1\35\20\0\1\35\1\0\3\35\10\0\33\43\1\46"+
+    "\1\47\5\43\40\50\1\51\1\50\1\0\3\35\1\52"+
+    "\20\0\1\35\1\0\3\35\43\0\1\46\6\0\40\50"+
+    "\1\53\1\50\11\0\1\46\26\0\1\51\1\0\11\50"+
+    "\1\46\26\50\1\53\1\50";
 
   private static int [] zzUnpackTrans() {
     int [] result = new int[612];
@@ -172,11 +172,11 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\2\0\1\11\2\1\3\11\1\1\13\11\1\1\2\11"+
-    "\3\1\2\11\1\1\4\11\1\1\1\0\1\1\1\11"+
+    "\3\1\2\11\2\1\4\11\1\1\1\0\1\1\1\11"+
     "\1\1\2\0\1\1\1\0";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[42];
+    int [] result = new int[43];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -263,7 +263,9 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 	* @param tipo Tipo de Token
 	*/
 	public void finToken(String lexema, int fila, int columna, String tipo){
-		System.out.println("[" + fila + 1 + "," + columna + 1 + "]\tToken: [" + tipo + "]\tLexema: [" + lexema + "]" );
+		fila = fila + 1;
+		columna = columna + 1;
+		System.out.println("[" + fila + "," + columna+ "]\tToken: " + tipo + "\tLexema: " + lexema);
 	}
 
 	/**
@@ -273,7 +275,9 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 	* @param columna Columna.
 	*/
 	public void findErrorLexico(String lexema, int fila, int columna){
-		System.out.println("Error Lexico: -----> " + lexema + "\t[" + fila + 1 + "," + columna + 1 + "]");
+		fila = fila + 1;
+		columna = columna + 1;
+		System.out.println("Error Lexico: -----> " + lexema + "\t[" + fila + "," + columna + "]");
 	}
 
 
@@ -665,111 +669,115 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
           case 1: 
             { findErrorLexico(yytext(), yyline, yycolumn);
             }
-          case 27: break;
-          case 2: 
-            { finToken(yytext(), yyline, yycolumn, "Id");				return new Symbol(TablaSimbolos.ID, 			yycolumn, yyline + 1, yytext());
-            }
           case 28: break;
-          case 3: 
-            { finToken(yytext(), yyline, yycolumn, "Coma");			return new Symbol(TablaSimbolos.COMA,			yycolumn, yyline + 1, yytext());
+          case 2: 
+            { finToken(yytext(), yyline, yycolumn, "Letra      ");	return new Symbol(TablaSimbolos.LETRA, 			yycolumn, yyline, yytext());
             }
           case 29: break;
+          case 3: 
+            { finToken(yytext(), yyline, yycolumn, "Coma       ");	return new Symbol(TablaSimbolos.COMA,			yycolumn, yyline, yytext());
+            }
+          case 30: break;
           case 4: 
             { yybegin(CADENA);
             }
-          case 30: break;
-          case 5: 
-            { finToken(yytext(), yyline, yycolumn, "DosPuntos");		return new Symbol(TablaSimbolos.DOSPUNTOS,		yycolumn, yyline + 1, yytext());
-            }
           case 31: break;
-          case 6: 
-            { finToken(yytext(), yyline, yycolumn, "Otro Simbolo");	return new Symbol(TablaSimbolos.SIMBOLO, 		yycolumn, yyline + 1, yytext());
+          case 5: 
+            { finToken(yytext(), yyline, yycolumn, "DosPuntos  ");	return new Symbol(TablaSimbolos.DOSPUNTOS,		yycolumn, yyline, yytext());
             }
           case 32: break;
-          case 7: 
-            { finToken(yytext(), yyline, yycolumn, "Llave_A");		return new Symbol(TablaSimbolos.LLAVE_A,		yycolumn, yyline + 1, yytext());
+          case 6: 
+            { finToken(yytext(), yyline, yycolumn, "Simbolo    ");	return new Symbol(TablaSimbolos.SIMBOLO, 		yycolumn, yyline, yytext());
             }
           case 33: break;
-          case 8: 
-            { finToken(yytext(), yyline, yycolumn, "Llave_C");		return new Symbol(TablaSimbolos.LLAVE_C,		yycolumn, yyline + 1, yytext());
+          case 7: 
+            { finToken(yytext(), yyline, yycolumn, "Llave_A    ");	return new Symbol(TablaSimbolos.LLAVE_A,		yycolumn, yyline, yytext());
             }
           case 34: break;
-          case 9: 
-            { finToken(yytext(), yyline, yycolumn, "PuntoComa");		return new Symbol(TablaSimbolos.PUNTOCOMA,		yycolumn, yyline + 1, yytext());
+          case 8: 
+            { finToken(yytext(), yyline, yycolumn, "Llave_C    ");	return new Symbol(TablaSimbolos.LLAVE_C,		yycolumn, yyline, yytext());
             }
           case 35: break;
-          case 10: 
-            { finToken(yytext(), yyline, yycolumn, "Porcentaje");		return new Symbol(TablaSimbolos.PORCENTAJE,		yycolumn, yyline + 1, yytext());
+          case 9: 
+            { finToken(yytext(), yyline, yycolumn, "PuntoComa  ");	return new Symbol(TablaSimbolos.PUNTOCOMA,		yycolumn, yyline, yytext());
             }
           case 36: break;
-          case 11: 
-            { finToken(yytext(), yyline, yycolumn, "Virgulilla");		return new Symbol(TablaSimbolos.VIRGULILLA,		yycolumn, yyline + 1, yytext());
+          case 10: 
+            { finToken(yytext(), yyline, yycolumn, "Porcentaje ");	return new Symbol(TablaSimbolos.PORCENTAJE,		yycolumn, yyline, yytext());
             }
           case 37: break;
-          case 12: 
-            { finToken(yytext(), yyline, yycolumn, "Punto");			return new Symbol(TablaSimbolos.PUNTO,			yycolumn, yyline + 1, yytext());
+          case 11: 
+            { finToken(yytext(), yyline, yycolumn, "Virgulilla ");	return new Symbol(TablaSimbolos.VIRGULILLA,		yycolumn, yyline, yytext());
             }
           case 38: break;
-          case 13: 
-            { finToken(yytext(), yyline, yycolumn, "Barra");			return new Symbol(TablaSimbolos.BARRA,			yycolumn, yyline + 1, yytext());
+          case 12: 
+            { finToken(yytext(), yyline, yycolumn, "Punto      ");	return new Symbol(TablaSimbolos.PUNTO,			yycolumn, yyline, yytext());
             }
           case 39: break;
-          case 14: 
-            { finToken(yytext(), yyline, yycolumn, "Por");			return new Symbol(TablaSimbolos.POR,			yycolumn, yyline + 1, yytext());
+          case 13: 
+            { finToken(yytext(), yyline, yycolumn, "Barra      ");	return new Symbol(TablaSimbolos.BARRA,			yycolumn, yyline, yytext());
             }
           case 40: break;
-          case 15: 
-            { finToken(yytext(), yyline, yycolumn, "Mas");			return new Symbol(TablaSimbolos.MAS,			yycolumn, yyline + 1, yytext());
+          case 14: 
+            { finToken(yytext(), yyline, yycolumn, "Por        ");	return new Symbol(TablaSimbolos.POR,			yycolumn, yyline, yytext());
             }
           case 41: break;
-          case 16: 
-            { finToken(yytext(), yyline, yycolumn, "Inter");			return new Symbol(TablaSimbolos.INTER,			yycolumn, yyline + 1, yytext());
+          case 15: 
+            { finToken(yytext(), yyline, yycolumn, "Mas        ");	return new Symbol(TablaSimbolos.MAS,			yycolumn, yyline, yytext());
             }
           case 42: break;
-          case 17: 
-            { finToken(yytext(), yyline, yycolumn, "Numero");			return new Symbol(TablaSimbolos.NUMERO, 		yycolumn, yyline + 1, yytext());
+          case 16: 
+            { finToken(yytext(), yyline, yycolumn, "Inter      ");	return new Symbol(TablaSimbolos.INTER,			yycolumn, yyline, yytext());
             }
           case 43: break;
+          case 17: 
+            { finToken(yytext(), yyline, yycolumn, "Numero     ");	return new Symbol(TablaSimbolos.NUMERO, 		yycolumn, yyline, yytext());
+            }
+          case 44: break;
           case 18: 
             { /* Se Ignoran los Espacios en Blanco*/
             }
-          case 44: break;
+          case 45: break;
           case 19: 
             { strCadena += yytext();
             }
-          case 45: break;
+          case 46: break;
           case 20: 
             { String strTemporal = strCadena;
 		strCadena = ""; // Se limpia para que una siguiente cadena que pueda venir
 		yybegin(YYINITIAL);
-		finToken(strTemporal, yyline, yycolumn, "Cadena");
-		return new Symbol(TablaSimbolos.CADENA, yycolumn, yyline + 1, strTemporal);
-            }
-          case 46: break;
-          case 21: 
-            { finToken(yytext(), yyline, yycolumn, "Flecha");			return new Symbol(TablaSimbolos.FLECHA,			yycolumn, yyline + 1, yytext());
+		finToken(strTemporal, yyline, yycolumn, "Cadena     ");
+		return new Symbol(TablaSimbolos.CADENA, yycolumn, yyline, strTemporal);
             }
           case 47: break;
-          case 22: 
-            { finToken(yytext(), yyline, yycolumn, "ComillaDoble");	return new Symbol(TablaSimbolos.SIM_COM_DOB,	yycolumn, yyline + 1, yytext());
+          case 21: 
+            { finToken(yytext(), yyline, yycolumn, "Id         ");	return new Symbol(TablaSimbolos.ID, 			yycolumn, yyline, yytext());
             }
           case 48: break;
-          case 23: 
-            { finToken(yytext(), yyline, yycolumn, "Salto Linea");	return new Symbol(TablaSimbolos.SALTO_LINEA,	yycolumn, yyline + 1, yytext());
+          case 22: 
+            { finToken(yytext(), yyline, yycolumn, "Flecha     ");	return new Symbol(TablaSimbolos.FLECHA,			yycolumn, yyline, yytext());
             }
           case 49: break;
-          case 24: 
-            { finToken(yytext(), yyline, yycolumn, "ComillaSimple");	return new Symbol(TablaSimbolos.SIM_COM_SIM,	yycolumn, yyline + 1, yytext());
+          case 23: 
+            { finToken(yytext(), yyline, yycolumn, "ComillaDobl");	return new Symbol(TablaSimbolos.SIM_COM_DOB,	yycolumn, yyline, yytext());
             }
           case 50: break;
-          case 25: 
-            { /* Se Ignoran los Comentarios*/
+          case 24: 
+            { finToken(yytext(), yyline, yycolumn, "Salto Linea");	return new Symbol(TablaSimbolos.SALTO_LINEA,	yycolumn, yyline, yytext());
             }
           case 51: break;
-          case 26: 
-            { finToken(yytext(), yyline, yycolumn, "Palabra Res");	return new Symbol(TablaSimbolos.CONJ, yycolumn, yyline + 1, yytext());
+          case 25: 
+            { finToken(yytext(), yyline, yycolumn, "ComillaSimp");	return new Symbol(TablaSimbolos.SIM_COM_SIM,	yycolumn, yyline, yytext());
             }
           case 52: break;
+          case 26: 
+            { /* Se Ignoran los Comentarios*/
+            }
+          case 53: break;
+          case 27: 
+            { finToken(yytext(), yyline, yycolumn, "Palabra Res");	return new Symbol(TablaSimbolos.CONJ, yycolumn, yyline, yytext());
+            }
+          case 54: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
