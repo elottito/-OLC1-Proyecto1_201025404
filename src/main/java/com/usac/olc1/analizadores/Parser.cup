@@ -34,56 +34,56 @@ action code {:
 ------------------------------ */
 
 // T E R M I N A L E S
-terminal	CONJ, FLECHA;
-terminal 	COMA, DOSPUNTOS, LLAVE_A, LLAVE_C, PUNTOCOMA;
-terminal	PORCENTAJE, VIRGULILLA, PUNTO, BARRA, POR, MAS, INTER;
-terminal	SIMBOLO, SIM_COM_DOB, SIM_COM_SIM, SALTO_LINEA; 
-terminal	CADENA, LETRA, NUMERO, ID;
+terminal	conj, flecha;
+terminal 	coma, dospuntos, llave_a, llave_c, puntocoma;
+terminal	porcentaje, virgulilla, punto, barra, por, mas, inter;
+terminal	simbolo, sim_com_dob, sim_com_sim, salto_linea; 
+terminal	cadena, letra, numero, id;
 
 // N O    T E R M I N A L E S					
-non terminal	inicio, lista_stmt, stmt, separador, lista_validar;
-non terminal	conjunto, definicion, intervalo, listaCaracter;
-non terminal	expreRegular, expr, validar;
-non terminal	identificador, caracter, especial;
+non terminal	INICIO, LISTA_STMT, STMT, SEPARADOR, LISTA_VALIDAR;
+non terminal	CONJUNTO, DEFINICION, INTERVALO, LISTACARACTER;
+non terminal	EXPREREGULAR, EXPR, VALIDAR;
+non terminal	IDENTIFICADOR, CARACTER, ESPECIAL;
 
 
 /* -----------------------------------------------------------------------
 					I N I C I O   G R A M A T I C A
 ------------------------------------------------------------------------- */
 
-start with inicio;
+start with INICIO;
 
-inicio 			::= LLAVE_A lista_stmt separador lista_validar LLAVE_C;
-lista_stmt 		::= lista_stmt stmt | stmt;
-stmt			::= conjunto | expreRegular;
-lista_validar	::= lista_validar validar | validar;
+INICIO 			::= llave_a LISTA_STMT SEPARADOR LISTA_VALIDAR llave_c;
+LISTA_STMT 		::= LISTA_STMT STMT | STMT;
+STMT			::= CONJUNTO | EXPREREGULAR;
+LISTA_VALIDAR	::= LISTA_VALIDAR VALIDAR | VALIDAR;
 
 //Conjuntos
-conjunto 		::=	CONJ DOSPUNTOS identificador FLECHA definicion PUNTOCOMA;
-definicion		::=	intervalo | listaCaracter | error;
-intervalo		::=	caracter VIRGULILLA caracter;
-listaCaracter	::= listaCaracter COMA caracter | caracter;
+CONJUNTO 		::=	conj dospuntos IDENTIFICADOR flecha DEFINICION puntocoma;
+DEFINICION		::=	INTERVALO | LISTACARACTER | error;
+INTERVALO		::=	CARACTER virgulilla CARACTER;
+LISTACARACTER	::= LISTACARACTER coma CARACTER | CARACTER;
 
 //Expresiones Regulares
-expreRegular	::= identificador FLECHA expr PUNTOCOMA;
-expr			::= PUNTO expr expr 
-					| BARRA expr expr 
-					| POR expr 
-					| MAS expr 
-					| INTER expr 
-					| LLAVE_A identificador LLAVE_C 
-					| CADENA 
-					| especial
+EXPREREGULAR	::= IDENTIFICADOR flecha EXPR puntocoma;
+EXPR			::= punto EXPR EXPR 
+					| barra EXPR EXPR 
+					| por EXPR 
+					| mas EXPR 
+					| inter EXPR 
+					| llave_a IDENTIFICADOR llave_c 
+					| cadena 
+					| ESPECIAL
 					| error;
 
 //Validar definiciones
-validar ::= identificador DOSPUNTOS CADENA PUNTOCOMA | error;
+VALIDAR ::= IDENTIFICADOR dospuntos cadena puntocoma | error;
 
 //Otras Declaraciones
-separador		::= PORCENTAJE PORCENTAJE PORCENTAJE PORCENTAJE | error;
-identificador 	::= ID | LETRA;
-caracter 		::= LETRA | NUMERO | SIMBOLO | 
-					COMA | DOSPUNTOS | LLAVE_A | LLAVE_C | PUNTOCOMA | PORCENTAJE | 
-					PUNTO | BARRA | POR | MAS | INTER |
-					especial;
-especial		::= SIM_COM_DOB | SIM_COM_SIM | SALTO_LINEA;
+SEPARADOR		::= porcentaje porcentaje porcentaje porcentaje | error;
+IDENTIFICADOR 	::= id | letra;
+CARACTER 		::= letra | numero | simbolo | 
+					coma | dospuntos | llave_a | llave_c | puntocoma | porcentaje | 
+					punto | barra | por | mas | inter |
+					ESPECIAL;
+ESPECIAL		::= sim_com_dob | sim_com_sim | salto_linea;

@@ -8,55 +8,55 @@ package com.usac.olc1.analizadores;
 /** CUP generated class containing symbol constants. */
 public class TablaSimbolos {
   /* terminals */
-  public static final int PUNTO = 11;
-  public static final int CADENA = 20;
-  public static final int DOSPUNTOS = 5;
-  public static final int LETRA = 21;
-  public static final int BARRA = 12;
-  public static final int FLECHA = 3;
-  public static final int ID = 23;
-  public static final int POR = 13;
-  public static final int PORCENTAJE = 9;
-  public static final int COMA = 4;
-  public static final int SIM_COM_DOB = 17;
-  public static final int SIM_COM_SIM = 18;
+  public static final int sim_com_dob = 17;
+  public static final int sim_com_sim = 18;
+  public static final int cadena = 20;
+  public static final int coma = 4;
+  public static final int numero = 22;
+  public static final int flecha = 3;
+  public static final int llave_c = 7;
+  public static final int inter = 15;
+  public static final int por = 13;
+  public static final int porcentaje = 9;
+  public static final int llave_a = 6;
+  public static final int conj = 2;
+  public static final int punto = 11;
   public static final int EOF = 0;
-  public static final int SIMBOLO = 16;
-  public static final int CONJ = 2;
-  public static final int NUMERO = 22;
+  public static final int letra = 21;
+  public static final int id = 23;
+  public static final int simbolo = 16;
+  public static final int puntocoma = 8;
+  public static final int virgulilla = 10;
   public static final int error = 1;
-  public static final int LLAVE_C = 7;
-  public static final int SALTO_LINEA = 19;
-  public static final int VIRGULILLA = 10;
-  public static final int PUNTOCOMA = 8;
-  public static final int LLAVE_A = 6;
-  public static final int INTER = 15;
-  public static final int MAS = 14;
+  public static final int barra = 12;
+  public static final int mas = 14;
+  public static final int salto_linea = 19;
+  public static final int dospuntos = 5;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "CONJ",
-  "FLECHA",
-  "COMA",
-  "DOSPUNTOS",
-  "LLAVE_A",
-  "LLAVE_C",
-  "PUNTOCOMA",
-  "PORCENTAJE",
-  "VIRGULILLA",
-  "PUNTO",
-  "BARRA",
-  "POR",
-  "MAS",
-  "INTER",
-  "SIMBOLO",
-  "SIM_COM_DOB",
-  "SIM_COM_SIM",
-  "SALTO_LINEA",
-  "CADENA",
-  "LETRA",
-  "NUMERO",
-  "ID"
+  "conj",
+  "flecha",
+  "coma",
+  "dospuntos",
+  "llave_a",
+  "llave_c",
+  "puntocoma",
+  "porcentaje",
+  "virgulilla",
+  "punto",
+  "barra",
+  "por",
+  "mas",
+  "inter",
+  "simbolo",
+  "sim_com_dob",
+  "sim_com_sim",
+  "salto_linea",
+  "cadena",
+  "letra",
+  "numero",
+  "id"
   };
 }
 

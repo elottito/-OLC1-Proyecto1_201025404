@@ -671,11 +671,11 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
             }
           case 28: break;
           case 2: 
-            { finToken(yytext(), yyline, yycolumn, "Letra      ");	return new Symbol(TablaSimbolos.LETRA, 			yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Letra      ");	return new Symbol(TablaSimbolos.letra, 			yycolumn, yyline, yytext());
             }
           case 29: break;
           case 3: 
-            { finToken(yytext(), yyline, yycolumn, "Coma       ");	return new Symbol(TablaSimbolos.COMA,			yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Coma       ");	return new Symbol(TablaSimbolos.coma,			yycolumn, yyline, yytext());
             }
           case 30: break;
           case 4: 
@@ -683,55 +683,55 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
             }
           case 31: break;
           case 5: 
-            { finToken(yytext(), yyline, yycolumn, "DosPuntos  ");	return new Symbol(TablaSimbolos.DOSPUNTOS,		yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "DosPuntos  ");	return new Symbol(TablaSimbolos.dospuntos,		yycolumn, yyline, yytext());
             }
           case 32: break;
           case 6: 
-            { finToken(yytext(), yyline, yycolumn, "Simbolo    ");	return new Symbol(TablaSimbolos.SIMBOLO, 		yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Simbolo    ");	return new Symbol(TablaSimbolos.simbolo, 		yycolumn, yyline, yytext());
             }
           case 33: break;
           case 7: 
-            { finToken(yytext(), yyline, yycolumn, "Llave_A    ");	return new Symbol(TablaSimbolos.LLAVE_A,		yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Llave_A    ");	return new Symbol(TablaSimbolos.llave_a,		yycolumn, yyline, yytext());
             }
           case 34: break;
           case 8: 
-            { finToken(yytext(), yyline, yycolumn, "Llave_C    ");	return new Symbol(TablaSimbolos.LLAVE_C,		yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Llave_C    ");	return new Symbol(TablaSimbolos.llave_c,		yycolumn, yyline, yytext());
             }
           case 35: break;
           case 9: 
-            { finToken(yytext(), yyline, yycolumn, "PuntoComa  ");	return new Symbol(TablaSimbolos.PUNTOCOMA,		yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "PuntoComa  ");	return new Symbol(TablaSimbolos.puntocoma,		yycolumn, yyline, yytext());
             }
           case 36: break;
           case 10: 
-            { finToken(yytext(), yyline, yycolumn, "Porcentaje ");	return new Symbol(TablaSimbolos.PORCENTAJE,		yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Porcentaje ");	return new Symbol(TablaSimbolos.porcentaje,		yycolumn, yyline, yytext());
             }
           case 37: break;
           case 11: 
-            { finToken(yytext(), yyline, yycolumn, "Virgulilla ");	return new Symbol(TablaSimbolos.VIRGULILLA,		yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Virgulilla ");	return new Symbol(TablaSimbolos.virgulilla,		yycolumn, yyline, yytext());
             }
           case 38: break;
           case 12: 
-            { finToken(yytext(), yyline, yycolumn, "Punto      ");	return new Symbol(TablaSimbolos.PUNTO,			yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Punto      ");	return new Symbol(TablaSimbolos.punto,			yycolumn, yyline, yytext());
             }
           case 39: break;
           case 13: 
-            { finToken(yytext(), yyline, yycolumn, "Barra      ");	return new Symbol(TablaSimbolos.BARRA,			yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Barra      ");	return new Symbol(TablaSimbolos.barra,			yycolumn, yyline, yytext());
             }
           case 40: break;
           case 14: 
-            { finToken(yytext(), yyline, yycolumn, "Por        ");	return new Symbol(TablaSimbolos.POR,			yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Por        ");	return new Symbol(TablaSimbolos.por,			yycolumn, yyline, yytext());
             }
           case 41: break;
           case 15: 
-            { finToken(yytext(), yyline, yycolumn, "Mas        ");	return new Symbol(TablaSimbolos.MAS,			yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Mas        ");	return new Symbol(TablaSimbolos.mas,			yycolumn, yyline, yytext());
             }
           case 42: break;
           case 16: 
-            { finToken(yytext(), yyline, yycolumn, "Inter      ");	return new Symbol(TablaSimbolos.INTER,			yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Inter      ");	return new Symbol(TablaSimbolos.inter,			yycolumn, yyline, yytext());
             }
           case 43: break;
           case 17: 
-            { finToken(yytext(), yyline, yycolumn, "Numero     ");	return new Symbol(TablaSimbolos.NUMERO, 		yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Numero     ");	return new Symbol(TablaSimbolos.numero, 		yycolumn, yyline, yytext());
             }
           case 44: break;
           case 18: 
@@ -747,27 +747,27 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 		strCadena = ""; // Se limpia para que una siguiente cadena que pueda venir
 		yybegin(YYINITIAL);
 		finToken(strTemporal, yyline, yycolumn, "Cadena     ");
-		return new Symbol(TablaSimbolos.CADENA, yycolumn, yyline, strTemporal);
+		return new Symbol(TablaSimbolos.cadena, yycolumn, yyline, strTemporal);
             }
           case 47: break;
           case 21: 
-            { finToken(yytext(), yyline, yycolumn, "Id         ");	return new Symbol(TablaSimbolos.ID, 			yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Id         ");	return new Symbol(TablaSimbolos.id, 			yycolumn, yyline, yytext());
             }
           case 48: break;
           case 22: 
-            { finToken(yytext(), yyline, yycolumn, "Flecha     ");	return new Symbol(TablaSimbolos.FLECHA,			yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Flecha     ");	return new Symbol(TablaSimbolos.flecha,			yycolumn, yyline, yytext());
             }
           case 49: break;
           case 23: 
-            { finToken(yytext(), yyline, yycolumn, "ComillaDobl");	return new Symbol(TablaSimbolos.SIM_COM_DOB,	yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "ComillaDobl");	return new Symbol(TablaSimbolos.sim_com_dob,	yycolumn, yyline, yytext());
             }
           case 50: break;
           case 24: 
-            { finToken(yytext(), yyline, yycolumn, "Salto Linea");	return new Symbol(TablaSimbolos.SALTO_LINEA,	yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Salto Linea");	return new Symbol(TablaSimbolos.salto_linea,	yycolumn, yyline, yytext());
             }
           case 51: break;
           case 25: 
-            { finToken(yytext(), yyline, yycolumn, "ComillaSimp");	return new Symbol(TablaSimbolos.SIM_COM_SIM,	yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "ComillaSimp");	return new Symbol(TablaSimbolos.sim_com_sim,	yycolumn, yyline, yytext());
             }
           case 52: break;
           case 26: 
@@ -775,7 +775,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
             }
           case 53: break;
           case 27: 
-            { finToken(yytext(), yyline, yycolumn, "Palabra Res");	return new Symbol(TablaSimbolos.CONJ, yycolumn, yyline, yytext());
+            { finToken(yytext(), yyline, yycolumn, "Palabra Res");	return new Symbol(TablaSimbolos.conj, 			yycolumn, yyline, yytext());
             }
           case 54: break;
           default:

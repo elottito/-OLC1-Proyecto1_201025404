@@ -102,38 +102,38 @@ COMENTARIOS 			= {COMENTARIO_SIMPLE} | {COMENTARIO_MULTILINEA}
 ------------------------------------------ */
 <YYINITIAL>{
 	// Palabras Reservadas
-	{CONJ} 				{	finToken(yytext(), yyline, yycolumn, "Palabra Res");	return new Symbol(TablaSimbolos.CONJ, 			yycolumn, yyline, yytext()); }
+	{CONJ} 				{	finToken(yytext(), yyline, yycolumn, "Palabra Res");	return new Symbol(TablaSimbolos.conj, 			yycolumn, yyline, yytext()); }
 
 	// Simbolos
-	{COMA}				{	finToken(yytext(), yyline, yycolumn, "Coma       ");	return new Symbol(TablaSimbolos.COMA,			yycolumn, yyline, yytext()); }
-	{DOSPUNTOS}			{	finToken(yytext(), yyline, yycolumn, "DosPuntos  ");	return new Symbol(TablaSimbolos.DOSPUNTOS,		yycolumn, yyline, yytext()); }
-	{FLECHA}			{	finToken(yytext(), yyline, yycolumn, "Flecha     ");	return new Symbol(TablaSimbolos.FLECHA,			yycolumn, yyline, yytext()); }
-	{LLAVE_A}			{	finToken(yytext(), yyline, yycolumn, "Llave_A    ");	return new Symbol(TablaSimbolos.LLAVE_A,		yycolumn, yyline, yytext()); }
-	{LLAVE_C}			{	finToken(yytext(), yyline, yycolumn, "Llave_C    ");	return new Symbol(TablaSimbolos.LLAVE_C,		yycolumn, yyline, yytext()); }
-	{PUNTOCOMA}			{	finToken(yytext(), yyline, yycolumn, "PuntoComa  ");	return new Symbol(TablaSimbolos.PUNTOCOMA,		yycolumn, yyline, yytext()); }
-	{PORCENTAJE}		{	finToken(yytext(), yyline, yycolumn, "Porcentaje ");	return new Symbol(TablaSimbolos.PORCENTAJE,		yycolumn, yyline, yytext()); }
-	{VIRGULILLA}		{	finToken(yytext(), yyline, yycolumn, "Virgulilla ");	return new Symbol(TablaSimbolos.VIRGULILLA,		yycolumn, yyline, yytext()); }
+	{COMA}				{	finToken(yytext(), yyline, yycolumn, "Coma       ");	return new Symbol(TablaSimbolos.coma,			yycolumn, yyline, yytext()); }
+	{DOSPUNTOS}			{	finToken(yytext(), yyline, yycolumn, "DosPuntos  ");	return new Symbol(TablaSimbolos.dospuntos,		yycolumn, yyline, yytext()); }
+	{FLECHA}			{	finToken(yytext(), yyline, yycolumn, "Flecha     ");	return new Symbol(TablaSimbolos.flecha,			yycolumn, yyline, yytext()); }
+	{LLAVE_A}			{	finToken(yytext(), yyline, yycolumn, "Llave_A    ");	return new Symbol(TablaSimbolos.llave_a,		yycolumn, yyline, yytext()); }
+	{LLAVE_C}			{	finToken(yytext(), yyline, yycolumn, "Llave_C    ");	return new Symbol(TablaSimbolos.llave_c,		yycolumn, yyline, yytext()); }
+	{PUNTOCOMA}			{	finToken(yytext(), yyline, yycolumn, "PuntoComa  ");	return new Symbol(TablaSimbolos.puntocoma,		yycolumn, yyline, yytext()); }
+	{PORCENTAJE}		{	finToken(yytext(), yyline, yycolumn, "Porcentaje ");	return new Symbol(TablaSimbolos.porcentaje,		yycolumn, yyline, yytext()); }
+	{VIRGULILLA}		{	finToken(yytext(), yyline, yycolumn, "Virgulilla ");	return new Symbol(TablaSimbolos.virgulilla,		yycolumn, yyline, yytext()); }
 
 	//Operadores
-	{PUNTO}				{	finToken(yytext(), yyline, yycolumn, "Punto      ");	return new Symbol(TablaSimbolos.PUNTO,			yycolumn, yyline, yytext()); }
-	{BARRA}				{	finToken(yytext(), yyline, yycolumn, "Barra      ");	return new Symbol(TablaSimbolos.BARRA,			yycolumn, yyline, yytext()); }
-	{POR}				{	finToken(yytext(), yyline, yycolumn, "Por        ");	return new Symbol(TablaSimbolos.POR,			yycolumn, yyline, yytext()); }
-	{MAS}				{	finToken(yytext(), yyline, yycolumn, "Mas        ");	return new Symbol(TablaSimbolos.MAS,			yycolumn, yyline, yytext()); }
-	{INTER}				{	finToken(yytext(), yyline, yycolumn, "Inter      ");	return new Symbol(TablaSimbolos.INTER,			yycolumn, yyline, yytext()); }
+	{PUNTO}				{	finToken(yytext(), yyline, yycolumn, "Punto      ");	return new Symbol(TablaSimbolos.punto,			yycolumn, yyline, yytext()); }
+	{BARRA}				{	finToken(yytext(), yyline, yycolumn, "Barra      ");	return new Symbol(TablaSimbolos.barra,			yycolumn, yyline, yytext()); }
+	{POR}				{	finToken(yytext(), yyline, yycolumn, "Por        ");	return new Symbol(TablaSimbolos.por,			yycolumn, yyline, yytext()); }
+	{MAS}				{	finToken(yytext(), yyline, yycolumn, "Mas        ");	return new Symbol(TablaSimbolos.mas,			yycolumn, yyline, yytext()); }
+	{INTER}				{	finToken(yytext(), yyline, yycolumn, "Inter      ");	return new Symbol(TablaSimbolos.inter,			yycolumn, yyline, yytext()); }
 
 	//Simbolos Especiales
-	{SALTO_LINEA}		{	finToken(yytext(), yyline, yycolumn, "Salto Linea");	return new Symbol(TablaSimbolos.SALTO_LINEA,	yycolumn, yyline, yytext()); }
-	{SIM_COM_DOB}		{	finToken(yytext(), yyline, yycolumn, "ComillaDobl");	return new Symbol(TablaSimbolos.SIM_COM_DOB,	yycolumn, yyline, yytext()); }
-	{SIM_COM_SIM}		{	finToken(yytext(), yyline, yycolumn, "ComillaSimp");	return new Symbol(TablaSimbolos.SIM_COM_SIM,	yycolumn, yyline, yytext()); }
+	{SALTO_LINEA}		{	finToken(yytext(), yyline, yycolumn, "Salto Linea");	return new Symbol(TablaSimbolos.salto_linea,	yycolumn, yyline, yytext()); }
+	{SIM_COM_DOB}		{	finToken(yytext(), yyline, yycolumn, "ComillaDobl");	return new Symbol(TablaSimbolos.sim_com_dob,	yycolumn, yyline, yytext()); }
+	{SIM_COM_SIM}		{	finToken(yytext(), yyline, yycolumn, "ComillaSimp");	return new Symbol(TablaSimbolos.sim_com_sim,	yycolumn, yyline, yytext()); }
 
 	// Cadena
 	{COMILLA}			{	yybegin(CADENA);	}
 	
 	// Expresiones Regulares
-	{LETRA}				{	finToken(yytext(), yyline, yycolumn, "Letra      ");	return new Symbol(TablaSimbolos.LETRA, 			yycolumn, yyline, yytext()); }
-	{NUMERO}			{	finToken(yytext(), yyline, yycolumn, "Numero     ");	return new Symbol(TablaSimbolos.NUMERO, 		yycolumn, yyline, yytext()); }
-	{ID}				{	finToken(yytext(), yyline, yycolumn, "Id         ");	return new Symbol(TablaSimbolos.ID, 			yycolumn, yyline, yytext()); }
-	{SIMBOLO}			{	finToken(yytext(), yyline, yycolumn, "Simbolo    ");	return new Symbol(TablaSimbolos.SIMBOLO, 		yycolumn, yyline, yytext()); 
+	{LETRA}				{	finToken(yytext(), yyline, yycolumn, "Letra      ");	return new Symbol(TablaSimbolos.letra, 			yycolumn, yyline, yytext()); }
+	{NUMERO}			{	finToken(yytext(), yyline, yycolumn, "Numero     ");	return new Symbol(TablaSimbolos.numero, 		yycolumn, yyline, yytext()); }
+	{ID}				{	finToken(yytext(), yyline, yycolumn, "Id         ");	return new Symbol(TablaSimbolos.id, 			yycolumn, yyline, yytext()); }
+	{SIMBOLO}			{	finToken(yytext(), yyline, yycolumn, "Simbolo    ");	return new Symbol(TablaSimbolos.simbolo, 		yycolumn, yyline, yytext()); 
 						}
 
 	// Espacios en Blanco
@@ -152,7 +152,7 @@ COMENTARIOS 			= {COMENTARIO_SIMPLE} | {COMENTARIO_MULTILINEA}
 		strCadena = ""; // Se limpia para que una siguiente cadena que pueda venir
 		yybegin(YYINITIAL);
 		finToken(strTemporal, yyline, yycolumn, "Cadena     ");
-		return new Symbol(TablaSimbolos.CADENA, yycolumn, yyline, strTemporal);
+		return new Symbol(TablaSimbolos.cadena, yycolumn, yyline, strTemporal);
 	}
 	[^"\""]				{   strCadena += yytext();  }
 }
