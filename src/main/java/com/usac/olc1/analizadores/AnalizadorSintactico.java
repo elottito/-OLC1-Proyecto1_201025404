@@ -6,6 +6,8 @@
 package com.usac.olc1.analizadores;
 
 import java_cup.runtime.Symbol;
+import com.usac.olc1.App;
+import com.usac.olc1.nodos.Errores;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -225,6 +227,9 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
 		int fila = s.right + 1;
 		int columna = s.left + 1;
 		String lexema = (String) s.value;
+		String descripcion = "Error Sintáctico Recuperado<br>Conflicto con el lexema <b>" + lexema + "</b> verificar expresion";		
+		Errores errorSinctactico = new Errores(fila, columna, lexema, descripcion);
+		App.listaErrores.add(errorSinctactico);
 		System.err.println("Error Sintactico (Recuperado)\tLexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
 	}
 
@@ -233,7 +238,10 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
 		int fila = s.right + 1;
 		int columna = s.left + 1;
 		String lexema = (String) s.value;
-		System.out.println("Error Sintactico (No Recuperable) Lexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
+		String descripcion = "Error Sintáctico NO Recuperado<br>Conflicto con el lexema <b>" + lexema + "</b> verificar expresion";
+		Errores errorSinctactico = new Errores(fila, columna, lexema, descripcion);
+		App.listaErrores.add(errorSinctactico);
+		System.err.println("Error Sintactico (NO Recuperado)\tLexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
 	}
 
 
