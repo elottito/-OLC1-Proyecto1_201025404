@@ -1,5 +1,6 @@
-package com.usac.olc1;
+package com.usac.olc1.gui;
 
+import com.usac.olc1.App;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,7 +24,7 @@ public class GenerarHTML {
                     + "\t</div>\n" + "\t<div class=\"tabla\">\n" + "\t\t<table>\n"
                     + "\t\t\t<caption class=\"subtitulo\"> Resumen de Errores</caption>\n" + "\t\t\t<thead>\n"
                     + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<th scope=\"col\">No</th>\n"
-                    + "\t\t\t\t\t<th scope=\"col\">Lexema</th>\n" + "\t\t\t\t\t<th scope=\"col\">Descripción</th>\n"
+                    + "\t\t\t\t\t<th scope=\"col\">Lexema</th>\n" + "\t\t\t\t\t<th scope=\"col\">Descripcion</th>\n"
                     + "\t\t\t\t\t<th scope=\"col\">Fila</th>\n" + "\t\t\t\t\t<th scope=\"col\">Columna</th>\n"
                     + "\t\t\t\t</tr>\n" + "\t\t\t</thead>\n" + "\t\t\t<tbody>\n");
 
@@ -49,9 +50,12 @@ public class GenerarHTML {
             e.write("\t\t\t\t<!-- Fin de Tabla de Errores -->\n" + "\t\t\t</tbody>\n" + "\t\t</table>\n"
                     + "\t</div>\n\n" + "</body>\n" + "</html>");
 
-            // Se Muestran la pagina creada
-            File paginaWeb = new File(rutaArchivo);
-            Desktop.getDesktop().open(paginaWeb);
+            // Se Muestran la pagina creada si tiene errores
+            if (!App.listaErrores.isEmpty()){
+                File paginaWeb = new File(rutaArchivo);
+                Desktop.getDesktop().open(paginaWeb);
+            }
+            
         } catch (IOException e) {
             System.out.println("Error al escribir el Archivo de HTLM: " + e);
         }

@@ -1,8 +1,8 @@
 package com.usac.olc1;
 
-import java.util.ArrayList;
-
+import com.usac.olc1.gui.Formulario;
 import com.usac.olc1.nodos.Errores;
+import java.util.ArrayList;
 
 /**
  * Universidad de San Carlos de Guatemala
@@ -15,21 +15,13 @@ import com.usac.olc1.nodos.Errores;
  * @version 1.0
  * @since 2021-02-26
  */
-public class App 
-{
+public class App {
     // Lista de Errores
     public static ArrayList<Errores> listaErrores = new ArrayList<Errores>();
     public static void main( String[] args )
     {
-        //Ruta de Archivo de Pruebas
-        String strRuta = "C:\\pruebas\\archivo.olc";
-        ManejoArchivo ma = new ManejoArchivo();
-        String strTexto = ma.getTexto(strRuta);
-        System.out.println(strTexto);
-        ma.correrArchivo(strTexto);
-
-        //GenerarHTML
-        GenerarHTML gh = new GenerarHTML();
-        gh.crearHtmlError();
+        //Mostrando el formulario
+        Formulario frm = new Formulario();
+        frm.setVisible(true);   
     }
 }
