@@ -12,18 +12,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.BadLocationException;
 
-/**
- *
- * @author elottito
- */
 public class Formulario extends javax.swing.JFrame {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-    private static ManejarArchivo manejo = new ManejarArchivo();
-    private static String strDirectorio;
+    private ManejarArchivo manejo = new ManejarArchivo();
 
     public Formulario() {
         //Look and Feel - FlatLigh Laf
@@ -59,115 +50,65 @@ public class Formulario extends javax.swing.JFrame {
         String path = manejo.getPath(); // Se obtiene la ruta, de donde se abrio el archivo
         String texto = manejo.getTexto(path); // Se obtiene toda la información que tenga el texto
         txtCode.setText(texto);
-        Consola.println("Path: " + manejo.getPath());
     }
 
     private void nuevoArchivo() {
-        // Se limpian los cuadros de texto
+        // Se limpian el cuadro de texto y la ruta
         txtCode.setText("");
-        manejo.setPath(strDirectorio);
+        manejo.setPath("");
 
     }
 
     private void guardarArchivo() {
-        /* Se verifica, si el fichero ya existe o si se va a crear uno nuevo */
-        String ruta = manejo.getPath();
-        if (ruta.equals("")) { // Primero se verifica si la ruta, ya existe
-            System.out.println("Es un nuevo Archivo a crear"); // Como No existe la ruta, entonces se guardara un archivo nuevo
-            Consola.println("Nuevo archivo a crear");
-            try {
-                // Se obtiene todo el texto y se guarda
-                manejo.guardarArchivoComo(convertirEnLineas(txtCode.getText()));
-                System.out.println("Archivo Guardado Exitosamente");
-                Consola.println("Archivo guardado exitosamente");
-            } catch (Exception e) {
-                System.out.println("Error: " + e);
-            }
+        // Verificar si el fichero ya existe o crear uno nuevo
+        if (manejo.getPath().isEmpty()) { 
+            // No existe la ruta, crear un archivo nuevo
+            manejo.guardarArchivoComo(txtCode.getText());
         } else {
-            // Ya existe la ruta, entonces se guarda nuevamente con el mismo nombre de la ruta el archivo - Se sobrescribe
-            try {
-                // Se sobreescribiria si se hizo algun cambios
-                manejo.guardarArchivo(convertirEnLineas(txtCode.getText()));
-                System.out.println("Archivo Guardado Exitosamente");
-                Consola.println("Archivo guardado exitosamente");
-            } catch (Exception e) {
-                System.out.println("Error: " + e);
-            }
+            // Ya existe la ruta, sobrescribir el archivo
+           manejo.guardarArchivo(txtCode.getText());
         }
     }
 
-    private void guardarComoArchivo() {
-        // Se va a guardar como un nuevo archivo
-        try {
-            manejo.guardarArchivoComo(convertirEnLineas(txtCode.getText()));
-            System.out.println("Archivo Guardado Como Exitosamente");
-            Consola.println("Archivo Guardado como exitosamente");
-        } catch (Exception e) {
-            System.out.println("Error: " + e);
-        }
-    }
-
-    private Boolean verificarArchivoExiste() {
-        Boolean estado;
-        // Aqui se verifica, si el fichero ya existe o si se va a crear uno nuevo
-        // Esto se ejecuta hasta cuando se realiza el analisis lexico
-        String ruta = this.manejo.getPath();
-        // Primero se verifica la ruta, que si ya existe
-        if (ruta == null || ruta.equals("")) {
-            System.out.println("No se ha cargado ningun archivo");
-            Consola.println("No se ha cargado ningun archivo");
+    /**
+     * Verifica si el ya existe el archivo 
+     * o si se debe guardar para poder analizarlo
+     * @return existe
+     */
+    private boolean verificarArchivoExiste() {
+        boolean existe;
+         // Se verifica, si el fichero ya existe o si se va a crear uno nuevo 
+        if (manejo.getPath().isEmpty()) {
+            // No existe la ruta, entonces se guardara un archivo nuevo
+            Consola.println("Nuevo archivo a crear");
             if (javax.swing.JOptionPane.showConfirmDialog(null, "¿Desea Guardar un archivo nuevo?", "Aplicación",
                     javax.swing.JOptionPane.YES_NO_OPTION,
                     javax.swing.JOptionPane.QUESTION_MESSAGE) == javax.swing.JOptionPane.YES_OPTION) {
-                // Se tendria que verificar si hay algun valor en el textArea y se puede guardar
-                // No existe la ruta, entonces se guardara un archivo nuevo
-                try {
-                    manejo.guardarArchivoComo(convertirEnLineas(txtCode.getText()));
-                    estado = true;
-                } catch (Exception e) {
-                    System.out.println("Error: " + e);
-                    estado = false;
-                }
+                // Crear un archivo nuevo
+                manejo.guardarArchivoComo(txtCode.getText());
+                existe = true;
             } else {
-                estado = false;
+                existe = false;
             }
-
         } else {
-            // Ya existe la ruta, entonces se guarda nuevamente con el mismo nombre de la ruta el archivo - Se sobrescribe
-            System.out.println("Ya hay un archivo abierto,");
-            try {
-                // Se sobreescribiria si se hizo algun cambios
-                manejo.guardarArchivo(convertirEnLineas(txtCode.getText()));
-                estado = true;
-            } catch (Exception e) {
-                System.out.println("Error: " + e);
-                estado = false;
-            }
-
+            // Se sobrescribe el archivo
+            Consola.println("Sobrescribiendo archivo");
+            manejo.guardarArchivo(txtCode.getText());
+            existe = true;
         }
-        return estado;
-    }
-
-    private String[] convertirEnLineas(String todoElTexto) {
-        return todoElTexto.split("\n");
+        return existe;
     }
 
     private void generarAutomata() {
-        // Mandar los datos para EL SCANNER
+        //Limpiar lista de errores
         App.listaErrores.clear();
 
         // Primero se verifica: Si el archivo ya existe o si se va guardar uno nuevo
-        if (Boolean.TRUE.equals(verificarArchivoExiste())) {
-            manejo.guardarArchivo(convertirEnLineas(txtCode.getText()));
-            manejo.correrArchivo(txtCode.getText()); // Si el archivo es creado, se corre el analizador lexico
-            javax.swing.JOptionPane.showMessageDialog(null, "Analisis Léxico y Sintactico Finalizado", "Información", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        }
-        
-        // Mostrar errores en pagina HTML
-        GenerarHTML gh = new GenerarHTML();
-        gh.crearHtmlError();
-        manejo.hayErrores();
-        
+        if (verificarArchivoExiste()) {
+            // Mandar los datos para EL SCANNER
+            Consola.println("Sobrescribiendo archivo");
+            manejo.ejecutarAnalisis(txtCode.getText());
+        }        
     }
 
     /**
@@ -311,15 +252,19 @@ public class Formulario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblConsola)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblConsola)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblUbicacion1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 260, Short.MAX_VALUE)
-                        .addComponent(lblUbicacion))
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2))
-                .addGap(12, 12, 12))
+                        .addGap(426, 426, 426)
+                        .addComponent(lblUbicacion)
+                        .addGap(46, 46, 46))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,7 +298,7 @@ public class Formulario extends javax.swing.JFrame {
     }//GEN-LAST:event_menuGuardarActionPerformed
 
     private void menuGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarComoActionPerformed
-        this.guardarComoArchivo();
+        manejo.guardarArchivoComo(txtCode.getText());
     }//GEN-LAST:event_menuGuardarComoActionPerformed
 
     private void txtCodeCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtCodeCaretUpdate
