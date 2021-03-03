@@ -28,7 +28,7 @@ public class GenerarHTML {
                     + "\t\t\t\t\t<th scope=\"col\">Fila</th>\n" + "\t\t\t\t\t<th scope=\"col\">Columna</th>\n"
                     + "\t\t\t\t</tr>\n" + "\t\t\t</thead>\n" + "\t\t\t<tbody>\n");
 
-            // T A B L A E R R O R
+            // T A B L A    E R R O R
             // Aqui inicia el Listado de Datos que se van a mostrar para la TABLA
             e.write("\t\t\t\t<!-- Aqui se colocan los datos para la tabla -->\n");
             int contador = 1;

@@ -8,7 +8,8 @@ import java_cup.runtime.Symbol;
 
 import com.usac.olc1.App;
 import com.usac.olc1.gui.Consola;
-import com.usac.olc1.nodos.Errores;
+import com.usac.olc1.nodos.*;
+
 
 // Codigo para el parser, variables, metodos
 parser code {:
@@ -52,7 +53,7 @@ terminal	cadena, letra, numero, id;
 
 // N O    T E R M I N A L E S					
 non terminal	INICIO, LISTA_STMT, STMT, SEPARADOR, LISTA_VALIDAR;
-non terminal	CONJUNTO, DEFINICION, INTERVALO, LISTACARACTER;
+non terminal	CONJUNTO, DEFINICION, INTERVALO, L_CARACTERES, CARACTERES;
 non terminal	EXPREREGULAR, EXPR, VALIDAR;
 non terminal	IDENTIFICADOR, CARACTER, ESPECIAL;
 
@@ -74,9 +75,26 @@ LISTA_VALIDAR	::= LISTA_VALIDAR VALIDAR | VALIDAR;
 
 //Conjuntos
 CONJUNTO 		::=	conj dospuntos IDENTIFICADOR flecha DEFINICION puntocoma;
-DEFINICION		::=	INTERVALO | LISTACARACTER | error;
-INTERVALO		::=	CARACTER virgulilla CARACTER;
-LISTACARACTER	::= LISTACARACTER coma CARACTER | CARACTER;
+
+//Definicion
+DEFINICION		::=	  INTERVALO:n1			{:	n1.execute(); 	:}
+					| L_CARACTERES		
+					| error
+				;
+
+//Intervalo
+INTERVALO		::=	CARACTER:begin virgulilla CARACTER:end 	{: /**TN**/	RESULT = new IntervaloNode(begin, end);	:}
+					;
+
+//Lista de Caracteres
+L_CARACTERES	::=   L_CARACTERES coma CARACTERES
+					| CARACTERES 
+					;
+
+//Caracteres
+CARACTERES 		::=   CARACTER
+					| ESPECIAL
+					;
 
 //Expresiones Regulares
 EXPREREGULAR	::= IDENTIFICADOR flecha EXPR puntocoma;
@@ -93,11 +111,33 @@ EXPR			::= punto EXPR EXPR
 //Validar definiciones
 VALIDAR ::= IDENTIFICADOR dospuntos cadena puntocoma | error;
 
-//Otras Declaraciones
+
+//Separador
 SEPARADOR		::= percent_d percent_d | error;
-IDENTIFICADOR 	::= id | letra;
-CARACTER 		::= letra | numero | simbolo | 
-					coma | dospuntos | llave_a | llave_c | puntocoma |  
-					punto | barra | por | mas | inter |
-					ESPECIAL;
-ESPECIAL		::= sim_com_dob | sim_com_sim | salto_linea;
+
+//Identificador
+IDENTIFICADOR 	::=   id:id				{::}
+					| letra:let			{::}
+					;
+
+//Caracter
+CARACTER 		::=   letra:le	 		{: RESULT = new ValueNode(le.toString().charAt(0));		:}
+					| numero:nu			{: RESULT = new ValueNode(nu.toString().charAt(0));		:} 
+					| simbolo:si		{: RESULT = new ValueNode(si.toString().charAt(0));		:} 
+					| coma:co			{: RESULT = new ValueNode(co.toString().charAt(0));		:} 
+					| dospuntos:dp		{: RESULT = new ValueNode(dp.toString().charAt(0));		:} 
+					| llave_a:la 		{: RESULT = new ValueNode(la.toString().charAt(0));		:} 
+					| llave_c:lc		{: RESULT = new ValueNode(lc.toString().charAt(0));		:} 
+					| puntocoma:pc 		{: RESULT = new ValueNode(pc.toString().charAt(0));		:} 
+					| punto:pt			{: RESULT = new ValueNode(pt.toString().charAt(0));		:} 
+					| barra:br			{: RESULT = new ValueNode(br.toString().charAt(0));		:} 
+					| por:pr			{: RESULT = new ValueNode(pr.toString().charAt(0));		:} 
+					| mas:ms			{: RESULT = new ValueNode(ms.toString().charAt(0));		:} 
+					| inter:in			{: RESULT = new ValueNode(in.toString().charAt(0));		:} 
+					;
+
+// Simbolo Especial
+ESPECIAL		::=   sim_com_dob:scd	{: RESULT = new ValueNode(scd.toString());	:} 
+					| sim_com_sim:scs	{: RESULT = new ValueNode(scs.toString());	:} 
+					| salto_linea:sli	{: RESULT = new ValueNode(sli.toString());	:} 
+					;
