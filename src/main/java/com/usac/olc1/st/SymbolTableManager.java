@@ -30,8 +30,12 @@ public class SymbolTableManager {
         currentContext.t.put(s.id, s);
     }
 
-    //obtener
-    public static Symbol getid(String id) {
+    /**
+     *
+     * @method getId Obtiene una variable dentro de la tabla de simbolos
+     * @param id Nombre de la variable a obtener
+     */
+    public static Symbol getId(String id) {
         if (currentContext.t.containsKey(id)) {
             return currentContext.t.get(id);
         } else {

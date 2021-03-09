@@ -22,6 +22,7 @@ parser code {:
 		Errores errorSinctactico = new Errores(fila, columna, lexema, descripcion);
 		App.listaErrores.add(errorSinctactico);
 		Consola.println("Error Sintactico (Recuperado)\tLexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
+		new ErrorNode
 	}
 
 	// Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores.
@@ -116,8 +117,8 @@ VALIDAR ::= IDENTIFICADOR dospuntos cadena puntocoma | error;
 SEPARADOR		::= percent_d percent_d | error;
 
 //Identificador
-IDENTIFICADOR 	::=   id:id				{::}
-					| letra:let			{::}
+IDENTIFICADOR 	::=   id:id				{: RESULT id;		:}
+					| letra:let			{: RESULT letra;	:}
 					;
 
 //Caracter
