@@ -1,32 +1,27 @@
 package com.usac.olc1.st;
-
-enum typesError{
-    LEXICO{
-        @Override 
-        public String printType() {
-            return "[Error Lexico] ->";
-        }
-    },
-    SINTACTICO{
-        @Override 
-        public String printType() {
-            return "[Error Sintactico] ->";
-        }
-    },
-    SEMANTICO{
-        @Override 
-        public String printType() {
-            return "[Error - Semantico] ->";
-        }
-    };
-    public abstract String printType();
-}
-
 public class TypeError {
-    typesError type;
 
-    public TypeError(typesError type) {
-        this.type = type;
+    public enum typesError{
+        LEXICO,
+        SINTACTICO,
+        SEMANTICO;
+    }
+
+    public static typesError getType(Object obj) {
+        
+        if (obj != null) {
+            String t = obj.getClass().getSimpleName();
+            switch (t) {
+                case "LEXICO":
+                    return   typesError.LEXICO;
+                case "SINTACTICO":
+                    return typesError.SINTACTICO;
+                case "SEMANTICO":
+                    return typesError.SEMANTICO;                    
+            }
+        }
+
+        return null;
     }
 
 }

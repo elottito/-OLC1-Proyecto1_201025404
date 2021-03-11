@@ -1,25 +1,25 @@
 package com.usac.olc1.nodos;
 
-import java.util.ArrayList;
+import com.usac.olc1.st.SymbolTableManager;
+import com.usac.olc1.st.Tree;
 
 public class ListCharNode extends Node {
 
     Node caracter;
+    int line;
+    int column;
 
     @Override
-    public Object execute() {
+    public Object execute(SymbolTableManager table, Tree tree) {
 
-        String r1 = caracter.execute().toString();
-        System.out.println("Execute ListChatNode -> " + r1);
 
-        ArrayList<String> result = new ArrayList<String>();
-        result.add(r1);
-        return r1;
+        return null;
     }
 
-    public ListCharNode(Node caracter) {
-        System.out.println("Constructor ListChatNode -> " + caracter);
+    public ListCharNode(Node caracter, int line, int column) {
+        super(line, column);
         this.caracter = caracter;
+        System.out.println("Constructor ListChatNode -> " + caracter);
     }
 
     

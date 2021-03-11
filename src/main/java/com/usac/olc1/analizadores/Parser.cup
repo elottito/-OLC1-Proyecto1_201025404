@@ -5,40 +5,44 @@
 // Importaciones y paquetes
 package com.usac.olc1.analizadores;
 import java_cup.runtime.Symbol;
+import java.util.Stack;
+import java.util.ArrayList;
 
 import com.usac.olc1.App;
 import com.usac.olc1.gui.Consola;
 import com.usac.olc1.nodos.*;
+import com.usac.olc1.st.ExceptionST;
+import com.usac.olc1.st.Tree;
+import com.usac.olc1.st.TypeError;
 
 
 // Codigo para el parser, variables, metodos
 parser code {:
 	// Metodo al que se llama automaticamente ante algun error sintactico.
 	public void syntax_error(Symbol s){
-		int fila = s.right + 1;
-		int columna = s.left + 1;
+		int line = s.right + 1;
+		int column = s.left + 1;
 		String lexema = (String) s.value;
-		String descripcion = "Error Sintactico Recuperado<br>Conflicto con el lexema <b>" + lexema + "</b> verificar expresion";		
-		Errores errorSinctactico = new Errores(fila, columna, lexema, descripcion);
-		App.listaErrores.add(errorSinctactico);
-		Consola.println("Error Sintactico (Recuperado)\tLexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
-		new ErrorNode
+		String descripcion = "Recuperado<br>Conflicto con el lexema <b>" + lexema + "</b> verificar expresion";		
+		String tipoError = TypeError.typesError.SINTACTICO.toString();
+		new ErrorNode( new ExceptionST(tipoError, descripcion, line, column), line, column );
+		
 	}
 
 	// Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores.
 	public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
-		int fila = s.right + 1;
-		int columna = s.left + 1;
+		int line = s.right + 1;
+		int column = s.left + 1;
 		String lexema = (String) s.value;
-		String descripcion = "Error Sintactico NO Recuperado<br>Conflicto con el lexema <b>" + lexema + "</b> verificar expresion";
-		Errores errorSinctactico = new Errores(fila, columna, lexema, descripcion);
-		App.listaErrores.add(errorSinctactico);
-		Consola.println("Error Sintactico (NO Recuperado)\tLexema [" + lexema + "]\tUbicacion: [" + fila + "," + columna + "]");
+		String descripcion = "NO Recuperado<br>Conflicto con el lexema <b>" + lexema + "</b> verificar expresion";
+		String tipoError = TypeError.typesError.SINTACTICO.toString();
+		new ErrorNode( new ExceptionST(tipoError, descripcion, line, column), line, column );
 	}
 :}
 
 action code {:
 	// Codigo para las acciones gramaticales
+	public Stack<Node> stackNode = new Stack<Node>();
 :}
 
 /* -----------------------------
@@ -46,22 +50,24 @@ action code {:
 ------------------------------ */
 
 // T E R M I N A L E S
-terminal	conj, flecha, percent_d;
-terminal 	coma, dospuntos, llave_a, llave_c, puntocoma, virgulilla;
-terminal	punto, barra, por, mas, inter;
-terminal	simbolo, sim_com_dob, sim_com_sim, salto_linea; 
-terminal	cadena, letra, numero, id;
+terminal String cadena, letra, id, numero;
+terminal String sim_com_dob, sim_com_sim, salto_linea;
+terminal String conj, flecha, percent_d;
+terminal char 	coma, dospuntos, llave_a, llave_c, puntocoma, virgulilla;
+terminal char 	simbolo, punto, barra, por, mas, inter;
 
 // N O    T E R M I N A L E S					
-non terminal	INICIO, LISTA_STMT, STMT, SEPARADOR, LISTA_VALIDAR;
-non terminal	CONJUNTO, DEFINICION, INTERVALO, L_CARACTERES, CARACTERES;
-non terminal	EXPREREGULAR, EXPR, VALIDAR;
-non terminal	IDENTIFICADOR, CARACTER, ESPECIAL;
+non terminal Tree   INICIO;
+non terminal Node	LISTA_STMT, STMT, SEPARADOR, LISTA_VALIDAR;
+non terminal Node	CONJUNTO, DEFINICION, INTERVALO, L_CARACTERES, CARACTERES;
+non terminal Node	EXPREREGULAR, EXPR, VALIDAR;
+non terminal Node	IDENTIFICADOR, CARACTER, ESPECIAL;
 
 // Precedencias
-precedence left barra;	// Disyuncion
-precedence left punto;	// Concatenacion
-precedence left por, mas, inter;	// Cerradura de Kleane
+precedence left punto;	// a.b
+precedence left barra;	// a|b
+precedence left inter;  // (a)?
+precedence left por, mas;	// Cerradura de Kleane
 
 /* -----------------------------------------------------------------------
 					I N I C I O   G R A M A T I C A
@@ -69,22 +75,34 @@ precedence left por, mas, inter;	// Cerradura de Kleane
 
 start with INICIO;
 
-INICIO 			::= llave_a LISTA_STMT SEPARADOR LISTA_VALIDAR llave_c;
-LISTA_STMT 		::= LISTA_STMT STMT | STMT;
-STMT			::= CONJUNTO | EXPREREGULAR;
-LISTA_VALIDAR	::= LISTA_VALIDAR VALIDAR | VALIDAR;
+INICIO 			::= llave_a LISTA_STMT:lista SEPARADOR LISTA_VALIDAR llave_c 	
+					{: /*NOTE: Change Node to ArrayList<Node>*/  RESULT = new Tree(lista); 	:}
+					;
+
+LISTA_STMT 		::= LISTA_STMT:n1 STMT:n2 		{: stackNode.push(n2); RESULT = n2;  :}
+					| STMT:n1 					{: stackNode.push(n1); RESULT = n1;  :}
+					;
+
+STMT			::= CONJUNTO:n1 				{: RESULT = n1;  :} 
+					| EXPREREGULAR
+					;
+LISTA_VALIDAR	::= LISTA_VALIDAR VALIDAR 
+					| VALIDAR
+					;
 
 //Conjuntos
-CONJUNTO 		::=	conj dospuntos IDENTIFICADOR flecha DEFINICION puntocoma;
+CONJUNTO 		::=	conj dospuntos IDENTIFICADOR flecha DEFINICION:n1 puntocoma 	{: RESULT = n1; :}
+					;
 
 //Definicion
-DEFINICION		::=	  INTERVALO:n1			{:	n1.execute(); 	:}
+DEFINICION		::=	  INTERVALO:n1			{: RESULT = n1;	:}
 					| L_CARACTERES		
 					| error
 				;
 
 //Intervalo
-INTERVALO		::=	CARACTER:begin virgulilla CARACTER:end 	{: /**TN**/	RESULT = new IntervaloNode(begin, end);	:}
+INTERVALO		::=	CARACTER:n1 virgulilla CARACTER:n2 	
+					{: /**TNT**/	RESULT = new IntervaloNode(n1, n2, n1left, n2right);	:}
 					;
 
 //Lista de Caracteres
@@ -117,28 +135,28 @@ VALIDAR ::= IDENTIFICADOR dospuntos cadena puntocoma | error;
 SEPARADOR		::= percent_d percent_d | error;
 
 //Identificador
-IDENTIFICADOR 	::=   id:id				{: RESULT id;		:}
-					| letra:let			{: RESULT letra;	:}
+IDENTIFICADOR 	::=   id:id				{: RESULT = new ValueNode(id, idright, idleft);				:}
+					| letra:letra		{: RESULT = new ValueNode(letra, letraright, letraleft);	:}
 					;
 
 //Caracter
-CARACTER 		::=   letra:le	 		{: RESULT = new ValueNode(le.toString().charAt(0));		:}
-					| numero:nu			{: RESULT = new ValueNode(nu.toString().charAt(0));		:} 
-					| simbolo:si		{: RESULT = new ValueNode(si.toString().charAt(0));		:} 
-					| coma:co			{: RESULT = new ValueNode(co.toString().charAt(0));		:} 
-					| dospuntos:dp		{: RESULT = new ValueNode(dp.toString().charAt(0));		:} 
-					| llave_a:la 		{: RESULT = new ValueNode(la.toString().charAt(0));		:} 
-					| llave_c:lc		{: RESULT = new ValueNode(lc.toString().charAt(0));		:} 
-					| puntocoma:pc 		{: RESULT = new ValueNode(pc.toString().charAt(0));		:} 
-					| punto:pt			{: RESULT = new ValueNode(pt.toString().charAt(0));		:} 
-					| barra:br			{: RESULT = new ValueNode(br.toString().charAt(0));		:} 
-					| por:pr			{: RESULT = new ValueNode(pr.toString().charAt(0));		:} 
-					| mas:ms			{: RESULT = new ValueNode(ms.toString().charAt(0));		:} 
-					| inter:in			{: RESULT = new ValueNode(in.toString().charAt(0));		:} 
+CARACTER 		::=   letra:let	 		{: RESULT = new ValueNode(let.toString().charAt(0), letright, letleft);	:}
+					| numero:num		{: RESULT = new ValueNode(num.toString().charAt(0), numright, numleft);	:} 
+					| simbolo:sim		{: RESULT = new ValueNode(sim, simright, simleft);		:} 
+					| coma:com			{: RESULT = new ValueNode(com, comright, comleft);		:} 
+					| dospuntos:dpt		{: RESULT = new ValueNode(dpt, dptright, dptleft);		:} 
+					| llave_a:lla 		{: RESULT = new ValueNode(lla, llaright, llaleft);		:} 
+					| llave_c:llc		{: RESULT = new ValueNode(llc, llcright, llcleft);		:} 
+					| puntocoma:pcm 	{: RESULT = new ValueNode(pcm, pcmright, pcmleft);		:} 
+					| punto:pnt			{: RESULT = new ValueNode(pnt, pntright, pntleft);		:} 
+					| barra:brr			{: RESULT = new ValueNode(brr, brrright, brrleft);		:} 
+					| por:por			{: RESULT = new ValueNode(por, porright, porleft);		:} 
+					| mas:mas			{: RESULT = new ValueNode(mas, masright, masleft);		:} 
+					| inter:qst			{: RESULT = new ValueNode(qst, qstright, qstleft);		:} 
 					;
 
 // Simbolo Especial
-ESPECIAL		::=   sim_com_dob:scd	{: RESULT = new ValueNode(scd.toString());	:} 
-					| sim_com_sim:scs	{: RESULT = new ValueNode(scs.toString());	:} 
-					| salto_linea:sli	{: RESULT = new ValueNode(sli.toString());	:} 
+ESPECIAL		::=   sim_com_dob:scd	{: RESULT = new ValueNode(scd, scdright, scdleft);		:} 
+					| sim_com_sim:scs	{: RESULT = new ValueNode(scs, scsright, scsleft);		:} 
+					| salto_linea:sli	{: RESULT = new ValueNode(sli, sliright, slileft);		:} 
 					;

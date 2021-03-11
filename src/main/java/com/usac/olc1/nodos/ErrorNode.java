@@ -1,21 +1,24 @@
 package com.usac.olc1.nodos;
 
 import com.usac.olc1.st.ExceptionST;
-import com.usac.olc1.st.Type;
+import com.usac.olc1.st.SymbolTableManager;
+import com.usac.olc1.st.Tree;
 
 public class ErrorNode extends Node{
     
     ExceptionST err;
-    Type types;
 
-    
-    public ErrorNode(ExceptionST err, int fila, int columna) {
-        //super( new Type(types.type.VOID), fila, columna);
+    int line;
+    int column;
+
+    public ErrorNode(ExceptionST err, int line, int column) {
+        super(line,column);
         this.err = err;
     }
 
     @Override
-    public Object execute() {
+    public Object execute(SymbolTableManager table, Tree tree) {
+        tree.exceptions.add(err);
         return null;
     }
     

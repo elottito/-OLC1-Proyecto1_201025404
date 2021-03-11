@@ -2,6 +2,10 @@ package com.usac.olc1.gui;
 import com.usac.olc1.App;
 import com.usac.olc1.analizadores.AnalizadorLexico;
 import com.usac.olc1.analizadores.AnalizadorSintactico;
+import com.usac.olc1.st.SymbolTableManager;
+import com.usac.olc1.st.Tree;
+
+import java_cup.runtime.Symbol;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -145,9 +149,27 @@ public class ManejarArchivo {
     public void ejecutarAnalisis(String texto) {
         try {          
             Consola.println("-> Iniciando Analisis...");
+
+            AnalizadorLexico lexico = new AnalizadorLexico(new BufferedReader(new StringReader(texto)));
+            AnalizadorSintactico sintactico = new AnalizadorSintactico(lexico);
+
+            //Nuevo
+            SymbolTableManager table = new SymbolTableManager();
+            Object o ;
+            o = (Object) sintactico.parse();
+            Tree tree = (Tree) o;
+
+           //Consola.println( "Arbol ->" + tree ) ;
+
+
+
+            /*
+            //Viejo
             AnalizadorLexico miScanner = new AnalizadorLexico(new BufferedReader(new StringReader(texto)));
             AnalizadorSintactico miParser = new AnalizadorSintactico(miScanner);
             miParser.parse();
+            */
+            
             Consola.println("-> Fin de Analisis");
 
             //Mensaje de Informacion
@@ -158,7 +180,7 @@ public class ManejarArchivo {
 
         } catch (Exception ex) {
             System.out.println(ex);
-            System.out.println("Error al correr el Analisis: " + ex);
+            System.out.println("Error al correr el Analisis -->" + ex);
         }
     }
 }

@@ -8,33 +8,40 @@ package com.usac.olc1.analizadores;
 /** CUP generated class containing symbol constants. */
 public class TablaSimbolos {
   /* terminals */
-  public static final int sim_com_dob = 17;
-  public static final int sim_com_sim = 18;
-  public static final int cadena = 20;
-  public static final int percent_d = 4;
-  public static final int coma = 5;
-  public static final int numero = 22;
-  public static final int flecha = 3;
-  public static final int llave_c = 8;
-  public static final int inter = 15;
-  public static final int por = 13;
-  public static final int llave_a = 7;
-  public static final int conj = 2;
-  public static final int punto = 11;
+  public static final int sim_com_dob = 6;
+  public static final int sim_com_sim = 7;
+  public static final int cadena = 2;
+  public static final int percent_d = 11;
+  public static final int coma = 12;
+  public static final int numero = 5;
+  public static final int flecha = 10;
+  public static final int llave_c = 15;
+  public static final int inter = 23;
+  public static final int por = 21;
+  public static final int llave_a = 14;
+  public static final int conj = 9;
+  public static final int punto = 19;
   public static final int EOF = 0;
-  public static final int letra = 21;
-  public static final int id = 23;
-  public static final int simbolo = 16;
-  public static final int puntocoma = 9;
-  public static final int virgulilla = 10;
+  public static final int letra = 3;
+  public static final int simbolo = 18;
+  public static final int id = 4;
+  public static final int puntocoma = 16;
+  public static final int virgulilla = 17;
+  public static final int barra = 20;
   public static final int error = 1;
-  public static final int barra = 12;
-  public static final int mas = 14;
-  public static final int salto_linea = 19;
-  public static final int dospuntos = 6;
+  public static final int mas = 22;
+  public static final int salto_linea = 8;
+  public static final int dospuntos = 13;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "cadena",
+  "letra",
+  "id",
+  "numero",
+  "sim_com_dob",
+  "sim_com_sim",
+  "salto_linea",
   "conj",
   "flecha",
   "percent_d",
@@ -44,19 +51,12 @@ public class TablaSimbolos {
   "llave_c",
   "puntocoma",
   "virgulilla",
+  "simbolo",
   "punto",
   "barra",
   "por",
   "mas",
-  "inter",
-  "simbolo",
-  "sim_com_dob",
-  "sim_com_sim",
-  "salto_linea",
-  "cadena",
-  "letra",
-  "numero",
-  "id"
+  "inter"
   };
 }
 

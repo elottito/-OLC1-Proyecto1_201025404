@@ -4,9 +4,12 @@
 package com.usac.olc1.analizadores;
 import java_cup.runtime.Symbol;
 
-import com.usac.olc1.App;
 import com.usac.olc1.gui.Consola;
-import com.usac.olc1.nodos.Errores;
+import com.usac.olc1.nodos.ErrorNode;
+import com.usac.olc1.st.ExceptionST;
+import com.usac.olc1.st.TypeError;
+
+
 %%
 
 /* ---------------------------------------------------
@@ -36,7 +39,7 @@ import com.usac.olc1.nodos.Errores;
 	* @param columna Columna
 	* @param tipo Tipo de Token
 	*/
-	public void finToken(String lexema, int fila, int columna, String tipo){
+	public void findToken(String lexema, int fila, int columna, String tipo){
 		fila = fila + 1;
 		columna = columna + 1;
 		Consola.println("[" + fila + "," + columna+ "]\tToken: " + tipo + "\tLexema: " + lexema);
@@ -48,13 +51,13 @@ import com.usac.olc1.nodos.Errores;
 	* @param fila Fila.
 	* @param columna Columna.
 	*/
-	public void findErrorLexico(String lexema, int fila, int columna){
-		fila = fila + 1;
-		columna = columna + 1;
-		String descripcion = "Error Lexico Recuperado<br>El caracter <b>" + lexema + "</b> no pertenece al lenguaje";
-		Consola.println("Error Lexico: -----> " + lexema + "\t[" + fila + "," + columna + "]");
-		Errores errorLexico = new Errores(fila, columna, lexema, descripcion);
-		App.listaErrores.add(errorLexico);
+	public void findErrorLexico(String lexema, int line, int column){		
+		String tipoError = TypeError.typesError.LEXICO.toString();
+		String descripcion = "El caracter <b>" + lexema + "</b> no pertenece al lenguaje";
+		line = line + 1;
+		column = column + 1;				
+		new ErrorNode( new ExceptionST(tipoError, descripcion, line, column), line, column );
+        Consola.println("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");
 	}
 %}
 
