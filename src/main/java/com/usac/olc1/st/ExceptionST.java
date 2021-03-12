@@ -22,5 +22,39 @@ public class ExceptionST {
         this.fila = fila;
         this.columna = columna;
     }
+
+
+    public String getTipo() {
+        return this.tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getDescripcion() {
+        return this.descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public int getFila() {
+        return this.fila;
+    }
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public int getColumna() {
+        return this.columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
     
 }

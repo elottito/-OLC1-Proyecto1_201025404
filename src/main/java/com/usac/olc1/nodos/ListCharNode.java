@@ -11,13 +11,12 @@ public class ListCharNode extends Node {
 
     @Override
     public Object execute(SymbolTableManager table, Tree tree) {
-
-
+        // INCOMPLETO
         return null;
     }
 
     public ListCharNode(Node caracter, int line, int column) {
-        super(line, column);
+        super(null, line, column);
         this.caracter = caracter;
         System.out.println("Constructor ListChatNode -> " + caracter);
     }

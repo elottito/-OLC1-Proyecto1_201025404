@@ -1,5 +1,5 @@
 package com.usac.olc1.nodos;
-//import com.usac.olc1.gui.Consola;
+import com.usac.olc1.gui.Consola;
 import com.usac.olc1.st.ExceptionST;
 import com.usac.olc1.st.SymbolTableManager;
 import com.usac.olc1.st.Tree;
@@ -26,11 +26,14 @@ public class IntervaloNode extends Node {
         int asciiFinal = (int) fin;
 
         // Validando que los limites sean correctos
-        if (asciiInicio > asciiFinal) {
+        if (asciiInicio >= asciiFinal) {
             String descripcion = "Limites incorrectos.<br>Conflicto con valores: [" + inicio + "~" + fin + "]" ;
-            ExceptionST err = new ExceptionST(TypeError.typesError.SEMANTICO.toString(), descripcion, line, column);
-            tree.exceptions.add(err);
-            return null;
+            ExceptionST error = new ExceptionST(TypeError.typesError.SEMANTICO.toString(), descripcion, line, column);
+            tree.exceptions.add(error);
+            //Agregando a consola
+            String errorString = "[ERROR SEMANTICO] " + "Limites incorrectos. Conflicto con valores: [" + inicio + "~" + fin + "]";
+            tree.console.add(errorString);
+            return error;
         } else {
             // Recorriendo el intervalo
             for (int i = asciiInicio; i <= asciiFinal; i++) {
@@ -43,10 +46,11 @@ public class IntervaloNode extends Node {
     }
 
     public IntervaloNode(Node arg1, Node arg2, int line, int column) {
-        super(line, column);
+        super(arg1.type, line, column);        
         this.arg1 = arg1;
         this.arg2 = arg2;
-        // System.out.println("Constructor IntervaloNode ->" + begin + " - " + end);
+        this.line = line;
+        this.column = column;
     }
 
 }

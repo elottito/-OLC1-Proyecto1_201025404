@@ -2,8 +2,8 @@
    C O D I G O    D E    U S U A R I O
 -------------------------------------- */
 package com.usac.olc1.analizadores;
-import java_cup.runtime.Symbol;
 
+import java_cup.runtime.Symbol;
 import com.usac.olc1.gui.Consola;
 import com.usac.olc1.nodos.ErrorNode;
 import com.usac.olc1.st.ExceptionST;
@@ -27,35 +27,27 @@ import com.usac.olc1.st.TypeError;
 // Estados	
 %state CADENA 
 
+%init{
+	// Indicando en el constructor que filas y columnas empiecen en uno y no en cero
+	yychar = 1;
+	yyline = 1;
+	yycolumn = 1;
+%init}
+
 // Metodo de Salida - Codigo en Java
 %{
 	StringBuffer string = new StringBuffer();
 	String strCadena = ""; //Se utiliza para obtener un String sin las comillas
 	
 	/**
-	* Metodo que muestra indiviualmente los tokens encontrados
-	* @param lexema Lexema
-	* @param fila Fila
-	* @param columna Columna
-	* @param tipo Tipo de Token
-	*/
-	public void findToken(String lexema, int fila, int columna, String tipo){
-		fila = fila + 1;
-		columna = columna + 1;
-		Consola.println("[" + fila + "," + columna+ "]\tToken: " + tipo + "\tLexema: " + lexema);
-	}
-
-	/**
 	* Metodo que almacena los errores lexicos que se encuentren
 	* @param lexema Lexema.
-	* @param fila Fila.
-	* @param columna Columna.
+	* @param line Fila.
+	* @param column Columna.
 	*/
 	public void findErrorLexico(String lexema, int line, int column){		
 		String tipoError = TypeError.typesError.LEXICO.toString();
 		String descripcion = "El caracter <b>" + lexema + "</b> no pertenece al lenguaje";
-		line = line + 1;
-		column = column + 1;				
 		new ErrorNode( new ExceptionST(tipoError, descripcion, line, column), line, column );
         Consola.println("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");
 	}

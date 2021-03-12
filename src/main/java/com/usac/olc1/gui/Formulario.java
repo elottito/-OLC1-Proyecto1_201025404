@@ -14,6 +14,10 @@ import javax.swing.text.BadLocationException;
 
 public class Formulario extends javax.swing.JFrame {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private ManejarArchivo manejo = new ManejarArchivo();
 
     public Formulario() {

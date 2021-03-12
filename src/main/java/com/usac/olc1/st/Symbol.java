@@ -2,28 +2,17 @@ package com.usac.olc1.st;
 
 public class Symbol {
     
-    String id;
+    public Type type;
+    public String identifier;
     public Object value;
+    public String ambito;
 
-    public String getId() {
-        return this.id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Object getValue() {
-        return this.value;
-    }
-
-    public void setValue(Object value) {
+    public Symbol(Type type, String identifier, Object value, String ambito) {
+        this.type = type;
+        this.identifier = identifier;
         this.value = value;
-    }
-
-    public Symbol(String id, Object value) {
-        this.id = id;
-        this.value = value;
+        this.ambito = ambito;
     }
 
 }

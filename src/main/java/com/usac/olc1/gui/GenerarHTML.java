@@ -9,9 +9,9 @@ import java.io.IOException;
 public class GenerarHTML {
 
     public void crearHtmlError() {
-        String rutaArchivo = "salidas/html/error.html";
+        String RUTA_ARCHIVO = "salidas/html/error.html";
         System.out.println("Generando el Archivo HTML de Errores");
-        File archivo = new File(rutaArchivo);
+        File archivo = new File(RUTA_ARCHIVO);
 
         try (FileWriter e = new FileWriter(archivo)) {
             // Inicio de HTML
@@ -71,7 +71,7 @@ public class GenerarHTML {
 
             // Se Muestran la pagina creada si tiene errores
             if (!App.listaErrores.isEmpty()) {
-                File paginaWeb = new File(rutaArchivo);
+                File paginaWeb = new File(RUTA_ARCHIVO);
                 Desktop.getDesktop().open(paginaWeb);
             }
 

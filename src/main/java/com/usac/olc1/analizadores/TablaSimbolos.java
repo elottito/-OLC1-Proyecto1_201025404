@@ -8,37 +8,36 @@ package com.usac.olc1.analizadores;
 /** CUP generated class containing symbol constants. */
 public class TablaSimbolos {
   /* terminals */
-  public static final int sim_com_dob = 6;
-  public static final int sim_com_sim = 7;
+  public static final int sim_com_dob = 5;
+  public static final int sim_com_sim = 6;
   public static final int cadena = 2;
-  public static final int percent_d = 11;
-  public static final int coma = 12;
-  public static final int numero = 5;
-  public static final int flecha = 10;
-  public static final int llave_c = 15;
+  public static final int percent_d = 10;
+  public static final int coma = 11;
+  public static final int numero = 18;
+  public static final int flecha = 9;
+  public static final int llave_c = 14;
   public static final int inter = 23;
   public static final int por = 21;
-  public static final int llave_a = 14;
-  public static final int conj = 9;
+  public static final int llave_a = 13;
+  public static final int conj = 8;
   public static final int punto = 19;
   public static final int EOF = 0;
   public static final int letra = 3;
-  public static final int simbolo = 18;
+  public static final int simbolo = 17;
   public static final int id = 4;
-  public static final int puntocoma = 16;
-  public static final int virgulilla = 17;
+  public static final int puntocoma = 15;
+  public static final int virgulilla = 16;
   public static final int barra = 20;
   public static final int error = 1;
   public static final int mas = 22;
-  public static final int salto_linea = 8;
-  public static final int dospuntos = 13;
+  public static final int salto_linea = 7;
+  public static final int dospuntos = 12;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "cadena",
   "letra",
   "id",
-  "numero",
   "sim_com_dob",
   "sim_com_sim",
   "salto_linea",
@@ -52,6 +51,7 @@ public class TablaSimbolos {
   "puntocoma",
   "virgulilla",
   "simbolo",
+  "numero",
   "punto",
   "barra",
   "por",

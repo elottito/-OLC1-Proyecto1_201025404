@@ -4,38 +4,38 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class SymbolTableManager {
-    static Stack<SymbolTable> ts;
-    static SymbolTable currentContext;
+    Stack<SymbolTable> ts;
+    SymbolTable currentContext;
 
-    public static void Init() {
+    public void Init() {
         ts = new Stack<SymbolTable>();
         ts.push(new SymbolTable(new HashMap<String, Symbol>()));
         currentContext = ts.peek();
     }
 
     // Abrir un nuevo contexto
-    public static void openContext() {
+    public void openContext() {
         ts.push(new SymbolTable(new HashMap<String, Symbol>(), currentContext));
         currentContext = ts.peek();
     }
 
     // Cerrar contexto
-    public static void closeContext() {
+    public void closeContext() {
         ts.pop();
         currentContext = ts.peek();
     }
 
     // Crear
-    public static void setid(Symbol s) {
-        currentContext.t.put(s.id, s);
+    public void setid(Symbol s) {
+        currentContext.t.put(s.identifier, s);
     }
 
     /**
-     *
-     * @method getId Obtiene una variable dentro de la tabla de simbolos
+     * Obtiene una variable dentro de la tabla de simbolos
      * @param id Nombre de la variable a obtener
+     * @return symbol
      */
-    public static Symbol getId(String id) {
+    public Symbol getId(String id) {
         if (currentContext.t.containsKey(id)) {
             return currentContext.t.get(id);
         } else {
