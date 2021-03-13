@@ -6,6 +6,8 @@
 package com.usac.olc1.analizadores;
 
 import java_cup.runtime.Symbol;
+
+import com.usac.olc1.App;
 import com.usac.olc1.gui.Consola;
 import com.usac.olc1.nodos.ErrorNode;
 import com.usac.olc1.st.ExceptionST;
@@ -253,8 +255,15 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
   public void findErrorLexico(String lexema, int line, int column) {
     String tipoError = TypeError.typesError.LEXICO.toString();
     String descripcion = "El caracter <b>" + lexema + "</b> no pertenece al lenguaje";
-    ErrorNode n = new ErrorNode(new ExceptionST(tipoError, descripcion, line, column), line, column);
+    column = column + 1;
+    ExceptionST error = new ExceptionST(tipoError, descripcion, line, column);
     Consola.println("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");
+    System.out.println("Error Lexico....");
+    //PROBLEMAS ACÁ ABAJO
+    //App.tree.arbol.console.add("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");
+    //App.tree.arbol.exceptions.add(error);
+    ErrorNode en = new ErrorNode(error , line, column );		
+    
   }
 
   /**

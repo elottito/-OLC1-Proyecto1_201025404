@@ -8,6 +8,8 @@ package com.usac.olc1.analizadores;
 import java_cup.runtime.Symbol;
 import java.util.Stack;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import com.usac.olc1.App;
 import com.usac.olc1.nodos.*;
 import com.usac.olc1.st.ExceptionST;
 import com.usac.olc1.st.Tree;
@@ -237,8 +239,12 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
 		String lexema = (String) s.value;
 		String descripcion = "Recuperado<br>Conflicto con el lexema <b>" + lexema + "</b> verificar expresion";		
 		String tipoError = TypeError.typesError.SINTACTICO.toString();
-		new ErrorNode( new ExceptionST(tipoError, descripcion, line, column), line, column );		
+		ExceptionST error = new ExceptionST(tipoError, descripcion, line, column);
+		ErrorNode en = new ErrorNode(error, line, column);
 		
+		//App.tree.arbol.console.add("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");
+		//App.tree.arbol.exceptions.add(error);	
+				
 	}
 
 	// Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores.
@@ -259,6 +265,7 @@ class CUP$AnalizadorSintactico$actions {
 
 	// Codigo para las acciones gramaticales
 	public Stack<Node> stackNode = new Stack<Node>();
+	public Stack<Node> stackCaracteres = new Stack<Node>();
 
   private final AnalizadorSintactico parser;
 
@@ -302,7 +309,7 @@ class CUP$AnalizadorSintactico$actions {
 		int listaleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).left;
 		int listaright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).right;
 		Node lista = (Node)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).value;
-		  RESULT = new Tree( stackNode);  
+		  RESULT = new Tree(stackNode);  
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -329,7 +336,7 @@ class CUP$AnalizadorSintactico$actions {
 		int n1left = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int n1right = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		Node n1 = (Node)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 stackNode.push(n1);  RESULT = n1;  
+		 stackNode.push(n1);  RESULT = n1;  stackCaracteres.clear(); 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("LISTA_STMT",1, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -398,7 +405,7 @@ class CUP$AnalizadorSintactico$actions {
 		int n1left = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int n1right = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		Node n1 = (Node)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT = n1;	
+			RESULT = n1;	
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("DEFINICION",6, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -407,7 +414,10 @@ class CUP$AnalizadorSintactico$actions {
           case 10: // DEFINICION ::= L_CARACTERES 
             {
               Node RESULT =null;
-
+		int n1left = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int n1right = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		Node n1 = (Node)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
+			RESULT = new ListCharNode(stackCaracteres, n1right, n1left);  	
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("DEFINICION",6, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -440,7 +450,10 @@ class CUP$AnalizadorSintactico$actions {
           case 13: // L_CARACTERES ::= L_CARACTERES coma CARACTERES 
             {
               Node RESULT =null;
-
+		int n1left = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int n1right = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		Node n1 = (Node)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
+			stackCaracteres.push(n1);	RESULT = n1;	
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("L_CARACTERES",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -449,7 +462,10 @@ class CUP$AnalizadorSintactico$actions {
           case 14: // L_CARACTERES ::= CARACTERES 
             {
               Node RESULT =null;
-
+		int n1left = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int n1right = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		Node n1 = (Node)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
+			stackCaracteres.push(n1);	RESULT = n1;	
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("L_CARACTERES",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -458,10 +474,10 @@ class CUP$AnalizadorSintactico$actions {
           case 15: // CARACTERES ::= CARACTER 
             {
               Node RESULT =null;
-		int cleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
-		int cright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
-		Node c = (Node)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		  RESULT=c; 
+		int n1left = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int n1right = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		Node n1 = (Node)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
+		 RESULT = n1; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("CARACTERES",9, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -470,10 +486,10 @@ class CUP$AnalizadorSintactico$actions {
           case 16: // CARACTERES ::= ESPECIAL 
             {
               Node RESULT =null;
-		int eleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
-		int eright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
-		Node e = (Node)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		  RESULT=e;  
+		int n1left = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int n1right = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		Node n1 = (Node)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
+		 RESULT = n1; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("CARACTERES",9, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;

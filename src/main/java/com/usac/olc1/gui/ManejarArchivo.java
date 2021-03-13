@@ -26,8 +26,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class ManejarArchivo {
 
     private String path = "";
-    String EXTENSION = "olc";
-    int contador;
+    private String EXTENSION = "olc";
+
+    public Tree arbol;
 
     /**
      * Se utiliza cuando se seleccione la opcion de ABRIR ARCHIVO Aqui solo voy a
@@ -164,15 +165,16 @@ public class ManejarArchivo {
             AnalizadorLexico lexico = new AnalizadorLexico(new BufferedReader(new StringReader(texto)));
             AnalizadorSintactico sintactico = new AnalizadorSintactico(lexico);
 
-            // Crenado Tabla de Simbolos
+            // Creando Tabla de Simbolos
             SymbolTableManager table = new SymbolTableManager();
             Object obj = (Object) sintactico.parse().value;
-            Tree tree = (Tree) obj;
+            App.tree.arbol = (Tree) obj;
+            //Tree tree = (Tree) obj;
 
             // Primera Pasada al Arbol
-            for (Node inst : tree.instructions) {
+            for (Node inst : App.tree.arbol.instructions) {
                 // if (inst instanceof DeclareConjunto){
-                inst.execute(table, tree);
+                inst.execute(table, App.tree.arbol);
                 // }
             }
 
@@ -194,13 +196,12 @@ public class ManejarArchivo {
             }
             */
 
-            for (int i = 0; i <= tree.exceptions.size() - 1; i++) {
+            for (int i = 0; i <= App.tree.arbol.exceptions.size() - 1; i++) {
                 // Consola.println( tree.consoexcle.get(i) );
-                Consola.println(tree.console.get(i));
-                String tipoError = tree.exceptions.get(i).getTipo();
-                String description = tree.exceptions.get(i).getDescripcion();
-                int line = tree.exceptions.get(i).getFila();
-                int column = tree.exceptions.get(i).getColumna();
+                String tipoError = App.tree.arbol.exceptions.get(i).getTipo();
+                String description = App.tree.arbol.exceptions.get(i).getDescripcion();
+                int line = App.tree.arbol.exceptions.get(i).getFila();
+                int column = App.tree.arbol.exceptions.get(i).getColumna();
 
                 System.out.println("Error:       " + i);
                 System.out.println("Tipo:        " + tipoError);

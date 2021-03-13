@@ -14,7 +14,16 @@ public class ValueNode extends Node{
 
     @Override
     public Object execute(SymbolTableManager table, Tree tree) {
+        System.out.println("ValueNode.execute --> " + this.value.toString());
         return this.value;
+    }
+
+    public Object getValue() {
+        return this.value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
     }
     
     

@@ -2,13 +2,13 @@
    C O D I G O    D E    U S U A R I O
 -------------------------------------- */
 package com.usac.olc1.analizadores;
-
 import java_cup.runtime.Symbol;
+
+import com.usac.olc1.App;
 import com.usac.olc1.gui.Consola;
 import com.usac.olc1.nodos.ErrorNode;
 import com.usac.olc1.st.ExceptionST;
 import com.usac.olc1.st.TypeError;
-
 
 %%
 
@@ -31,7 +31,6 @@ import com.usac.olc1.st.TypeError;
 	// Indicando en el constructor que filas y columnas empiecen en uno y no en cero
 	yychar = 1;
 	yyline = 1;
-	yycolumn = 1;
 %init}
 
 // Metodo de Salida - Codigo en Java
@@ -48,8 +47,11 @@ import com.usac.olc1.st.TypeError;
 	public void findErrorLexico(String lexema, int line, int column){		
 		String tipoError = TypeError.typesError.LEXICO.toString();
 		String descripcion = "El caracter <b>" + lexema + "</b> no pertenece al lenguaje";
-		new ErrorNode( new ExceptionST(tipoError, descripcion, line, column), line, column );
-        Consola.println("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");
+		column = column + 1;
+		ExceptionST error = new ExceptionST(tipoError, descripcion, line, column);
+		ErrorNode en = new ErrorNode(error , line, column );
+		App.tree.arbol.console.add("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");
+		App.tree.arbol.exceptions.add(error);
 	}
 %}
 

@@ -7,7 +7,9 @@ package com.usac.olc1.analizadores;
 import java_cup.runtime.Symbol;
 import java.util.Stack;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
+import com.usac.olc1.App;
 import com.usac.olc1.nodos.*;
 import com.usac.olc1.st.ExceptionST;
 import com.usac.olc1.st.Tree;
@@ -24,8 +26,12 @@ parser code {:
 		String lexema = (String) s.value;
 		String descripcion = "Recuperado<br>Conflicto con el lexema <b>" + lexema + "</b> verificar expresion";		
 		String tipoError = TypeError.typesError.SINTACTICO.toString();
-		new ErrorNode( new ExceptionST(tipoError, descripcion, line, column), line, column );		
+		ExceptionST error = new ExceptionST(tipoError, descripcion, line, column);
+		ErrorNode en = new ErrorNode(error, line, column);
 		
+		//App.tree.arbol.console.add("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");
+		//App.tree.arbol.exceptions.add(error);	
+				
 	}
 
 	// Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores.
@@ -42,6 +48,7 @@ parser code {:
 action code {:
 	// Codigo para las acciones gramaticales
 	public Stack<Node> stackNode = new Stack<Node>();
+	public Stack<Node> stackCaracteres = new Stack<Node>();
 :}
 
 /* -----------------------------
@@ -75,11 +82,11 @@ precedence left por, mas;	// Cerradura de Kleane
 
 start with INICIO;
 
-INICIO 			::= llave_a LISTA_STMT:lista SEPARADOR LISTA_VALIDAR llave_c 	{:  RESULT = new Tree( stackNode);  :}
+INICIO 			::= llave_a LISTA_STMT:lista SEPARADOR LISTA_VALIDAR llave_c 	{:  RESULT = new Tree(stackNode);  :}
 					;
 
 LISTA_STMT 		::= LISTA_STMT:n1 STMT:n2 		{: stackNode.push(n2);  RESULT = n2;  :}
-					| STMT:n1 					{: stackNode.push(n1);  RESULT = n1;  :}
+					| STMT:n1 					{: stackNode.push(n1);  RESULT = n1;  stackCaracteres.clear(); :}
 					;
 
 STMT			::= CONJUNTO:n1 				{: RESULT = n1;  :} 
@@ -90,13 +97,13 @@ LISTA_VALIDAR	::= LISTA_VALIDAR VALIDAR
 					;
 
 //Conjuntos
-CONJUNTO 		::=	conj:c dospuntos IDENTIFICADOR:id flecha DEFINICION:value puntocoma 	
+CONJUNTO 		::=	conj:c dospuntos IDENTIFICADOR:id flecha DEFINICION:value puntocoma 
 					{: RESULT = new DeclareConjunto( new Type(types.CONJUNTO), id, value, cleft, cright); :}
 					;
 
 //Definicion
-DEFINICION		::=	  INTERVALO:n1			{: RESULT = n1;	:}
-					| L_CARACTERES		
+DEFINICION		::=	  INTERVALO:n1		{:	RESULT = n1;	:}
+					| L_CARACTERES:n1	{:	RESULT = new ListCharNode(stackCaracteres, n1right, n1left);  	:}			
 					| error
 				;
 
@@ -105,13 +112,13 @@ INTERVALO		::=	CARACTER:n1 virgulilla CARACTER:n2 	{:	RESULT = new IntervaloNode
 					;
 
 //Lista de Caracteres
-L_CARACTERES	::=   L_CARACTERES coma CARACTERES
-					| CARACTERES 
+L_CARACTERES	::=   L_CARACTERES:n1 coma CARACTERES:n2	{:	stackCaracteres.push(n1);	RESULT = n1;	:}
+					| CARACTERES:n1 						{:	stackCaracteres.push(n1);	RESULT = n1;	:}
 					;
 
 //Caracteres
-CARACTERES 		::=   CARACTER:c {:  RESULT=c; :}
-					| ESPECIAL:e {:  RESULT=e;  :}
+CARACTERES 		::=   CARACTER:n1 {: RESULT = n1; :}
+					| ESPECIAL:n1 {: RESULT = n1; :}
 					;
 
 //Expresiones Regulares

@@ -1,5 +1,4 @@
 package com.usac.olc1.nodos;
-import com.usac.olc1.gui.Consola;
 import com.usac.olc1.st.ExceptionST;
 import com.usac.olc1.st.SymbolTableManager;
 import com.usac.olc1.st.Tree;
@@ -19,6 +18,7 @@ public class IntervaloNode extends Node {
 
         char inicio = (char) arg1.execute(table, tree);
         char fin = (char) arg2.execute(table, tree);
+
         ArrayList<Character> result = new ArrayList<Character>();
 
         // Convertiendo a ASCCI
@@ -27,10 +27,11 @@ public class IntervaloNode extends Node {
 
         // Validando que los limites sean correctos
         if (asciiInicio >= asciiFinal) {
+            //Agregando al arbol el error
             String descripcion = "Limites incorrectos.<br>Conflicto con valores: [" + inicio + "~" + fin + "]" ;
             ExceptionST error = new ExceptionST(TypeError.typesError.SEMANTICO.toString(), descripcion, line, column);
             tree.exceptions.add(error);
-            //Agregando a consola
+            //Agregando a consola error
             String errorString = "[ERROR SEMANTICO] " + "Limites incorrectos. Conflicto con valores: [" + inicio + "~" + fin + "]";
             tree.console.add(errorString);
             return error;
