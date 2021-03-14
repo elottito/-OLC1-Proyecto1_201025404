@@ -1,16 +1,16 @@
 package com.usac.olc1.gui;
 
-import com.usac.olc1.App;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import com.usac.olc1.st.Tree;
+
 public class GenerarHTML {
 
-    public void crearHtmlError() {
+    public void crearHtmlError(Tree tree) {        
         String RUTA_ARCHIVO = "salidas/html/error.html";
-        System.out.println("Generando el Archivo HTML de Errores");
         File archivo = new File(RUTA_ARCHIVO);
 
         try (FileWriter e = new FileWriter(archivo)) {
@@ -46,18 +46,19 @@ public class GenerarHTML {
 
             // Aqui inicia el Listado de Datos que se van a mostrar para la TABLA
             e.write("\t\t\t\t<!-- Aqui se colocan los datos para la tabla -->\n");
-            int contador = 1;
-
-            if (!App.listaErrores.isEmpty()) {
-                for (int i = 0; i < App.listaErrores.size(); i++) {
+            if(!tree.exceptions.isEmpty()){
+                for (int i = 0; i <= tree.exceptions.size() - 1; i++) {         
+                    String tipoError = tree.exceptions.get(i).getTipo().toLowerCase();
+                    String description = tree.exceptions.get(i).getDescripcion();
+                    int line = tree.exceptions.get(i).getFila() + 1;
+                    int column = tree.exceptions.get(i).getColumna() + 1;
                     e.write("\t\t\t\t<tr>\n");
-                    e.write("\t\t\t\t\t<td>" + contador + "</td>\n");
-                    e.write("\t\t\t\t\t<td>" + App.listaErrores.get(i).lexema + "</td>\n"); // lexema
-                    e.write("\t\t\t\t\t<td>" + App.listaErrores.get(i).descripcion + "</td>\n"); // descp
-                    e.write("\t\t\t\t\t<td>" + App.listaErrores.get(i).fila + "</td>\n"); // fila
-                    e.write("\t\t\t\t\t<td>" + App.listaErrores.get(i).columna + "</td>\n"); // columna
+                    e.write("\t\t\t\t\t<td>" + i + "</td>\n");
+                    e.write("\t\t\t\t\t<td>" + tipoError + "</td>\n"); 
+                    e.write("\t\t\t\t\t<td>" + description + "</td>\n");
+                    e.write("\t\t\t\t\t<td>" + line + "</td>\n"); 
+                    e.write("\t\t\t\t\t<td>" + column + "</td>\n");
                     e.write("\t\t\t\t</tr>\n\n");
-                    contador++;
                 }
             }
 
@@ -70,7 +71,8 @@ public class GenerarHTML {
             e.write("</html>");
 
             // Se Muestran la pagina creada si tiene errores
-            if (!App.listaErrores.isEmpty()) {
+            if (!tree.exceptions.isEmpty()) {
+                System.out.println("Mostrando el Archivo HTML de Errores...");
                 File paginaWeb = new File(RUTA_ARCHIVO);
                 Desktop.getDesktop().open(paginaWeb);
             }

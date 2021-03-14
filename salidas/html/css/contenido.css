@@ -75,6 +75,10 @@
     text-align: center;
 }
 
+.tabla table tbody td::first-letter {
+    text-transform: uppercase;
+}
+
 .tabla table td:nth-child(3) {
     text-align: justify;
 }

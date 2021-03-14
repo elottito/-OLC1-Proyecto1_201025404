@@ -1,11 +1,6 @@
 package com.usac.olc1;
 
 import com.usac.olc1.gui.Formulario;
-import com.usac.olc1.gui.ManejarArchivo;
-import com.usac.olc1.nodos.Errores;
-import com.usac.olc1.st.Tree;
-
-import java.util.ArrayList;
 
 /**
  * Universidad de San Carlos de Guatemala
@@ -19,13 +14,7 @@ import java.util.ArrayList;
  * @since 2021-02-26
  */
 public class App {
-    
-    // Lista de Errores
-    public static ArrayList<Errores> listaErrores = new ArrayList<Errores>();
-    
-    // Arbol
-    public static ManejarArchivo tree = new ManejarArchivo();
-
+       
     public static void main( String[] args )
     {
         //Mostrando el formulario

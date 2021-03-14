@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class SymbolTableManager {
-    Stack<SymbolTable> ts;
-    SymbolTable currentContext;
+    static Stack<SymbolTable> ts;
+    static SymbolTable currentContext;
 
     public void Init() {
         ts = new Stack<SymbolTable>();
@@ -25,8 +25,11 @@ public class SymbolTableManager {
         currentContext = ts.peek();
     }
 
-    // Crear
-    public void setid(Symbol s) {
+    /**
+     * Crear ID
+     * @param s Symbol
+     */
+    public void setId(Symbol s) {
         currentContext.t.put(s.identifier, s);
     }
 

@@ -7,9 +7,7 @@ package com.usac.olc1.analizadores;
 import java_cup.runtime.Symbol;
 import java.util.Stack;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
-import com.usac.olc1.App;
 import com.usac.olc1.nodos.*;
 import com.usac.olc1.st.ExceptionST;
 import com.usac.olc1.st.Tree;
@@ -48,7 +46,7 @@ parser code {:
 action code {:
 	// Codigo para las acciones gramaticales
 	public Stack<Node> stackNode = new Stack<Node>();
-	public Stack<Node> stackCaracteres = new Stack<Node>();
+
 :}
 
 /* -----------------------------
@@ -65,10 +63,13 @@ terminal String simbolo, numero, punto, barra, por, mas, inter;
 // N O    T E R M I N A L E S					
 non terminal Tree   INICIO;
 non terminal Node	LISTA_STMT, STMT, SEPARADOR, LISTA_VALIDAR;
-non terminal Node	CONJUNTO, DEFINICION, INTERVALO, L_CARACTERES, CARACTERES;
+non terminal Node	CONJUNTO, DEFINICION, INTERVALO;
 non terminal Node	EXPREREGULAR, EXPR, VALIDAR;
 non terminal Node	CARACTER, ESPECIAL;
 non terminal String IDENTIFICADOR;
+
+non terminal ArrayList<Node> L_CARACTERES;
+non terminal Node 	CARACTERES;
 
 // Precedencias
 precedence left punto;	// a.b
@@ -86,7 +87,7 @@ INICIO 			::= llave_a LISTA_STMT:lista SEPARADOR LISTA_VALIDAR llave_c 	{:  RESU
 					;
 
 LISTA_STMT 		::= LISTA_STMT:n1 STMT:n2 		{: stackNode.push(n2);  RESULT = n2;  :}
-					| STMT:n1 					{: stackNode.push(n1);  RESULT = n1;  stackCaracteres.clear(); :}
+					| STMT:n1 					{: stackNode.push(n1);  RESULT = n1;  :}
 					;
 
 STMT			::= CONJUNTO:n1 				{: RESULT = n1;  :} 
@@ -97,28 +98,23 @@ LISTA_VALIDAR	::= LISTA_VALIDAR VALIDAR
 					;
 
 //Conjuntos
-CONJUNTO 		::=	conj:c dospuntos IDENTIFICADOR:id flecha DEFINICION:value puntocoma 
-					{: RESULT = new DeclareConjunto( new Type(types.CONJUNTO), id, value, cleft, cright); :}
+CONJUNTO 		::=	conj dospuntos IDENTIFICADOR:id flecha DEFINICION:value puntocoma 
+					{: RESULT = new DeclareConjunto( new Type(types.CONJUNTO), id, value, idright, idleft); :}
 					;
 
 //Definicion
-DEFINICION		::=	  INTERVALO:n1		{:	RESULT = n1;	:}
-					| L_CARACTERES:n1	{:	RESULT = new ListCharNode(stackCaracteres, n1right, n1left);  	:}			
+DEFINICION		::=	  INTERVALO:n1		{: RESULT = n1;									:}
+					| L_CARACTERES:n1	{: RESULT = new ListCharNode(n1, n1right, n1left); :}			
 					| error
-				;
-
-//Intervalo
-INTERVALO		::=	CARACTER:n1 virgulilla CARACTER:n2 	{:	RESULT = new IntervaloNode(n1, n2, n1right, n1left);	:}
 					;
 
-//Lista de Caracteres
-L_CARACTERES	::=   L_CARACTERES:n1 coma CARACTERES:n2	{:	stackCaracteres.push(n1);	RESULT = n1;	:}
-					| CARACTERES:n1 						{:	stackCaracteres.push(n1);	RESULT = n1;	:}
+//Intervalo ✓
+INTERVALO		::=	CARACTER:n1 virgulilla CARACTER:n2 		{: RESULT = new IntervaloNode(n1, n2, n1right, n1left); :}
 					;
 
-//Caracteres
-CARACTERES 		::=   CARACTER:n1 {: RESULT = n1; :}
-					| ESPECIAL:n1 {: RESULT = n1; :}
+//Lista de Caracteres 
+L_CARACTERES	::=   L_CARACTERES:n1 coma CARACTERES:n2	{: RESULT = n1; 				RESULT.add(n2);	:}
+					| CARACTERES:n1 						{: RESULT = new ArrayList<>();	RESULT.add(n1);	:}
 					;
 
 //Expresiones Regulares
@@ -138,30 +134,35 @@ VALIDAR 		::=   IDENTIFICADOR dospuntos cadena puntocoma
 					| error
 					;
 
-//Separador
+//Separador ✓
 SEPARADOR		::=   percent_d percent_d 
 					| error
 					;
 
-//Identificador
+//Identificador ✓
 IDENTIFICADOR 	::=   id:id				{: RESULT = id;		:}
 					| letra:letra		{: RESULT = letra;	:}
 					;
 
-//Caracter
-CARACTER 		::=   letra:let	 		{: RESULT = new ValueNode(new Type(types.CHAR), let.toString().charAt(0), letright, letleft);	:}
-					| numero:num		{: RESULT = new ValueNode(new Type(types.CHAR), num.toString().charAt(0), numright, numleft);	:} 
-					| simbolo:sim		{: RESULT = new ValueNode(new Type(types.CHAR), sim.toString().charAt(0), simright, simleft);	:} 
-					| coma:com			{: RESULT = new ValueNode(new Type(types.CHAR), com.toString().charAt(0), comright, comleft);	:} 
-					| dospuntos:dpt		{: RESULT = new ValueNode(new Type(types.CHAR), dpt.toString().charAt(0), dptright, dptleft);	:} 
-					| llave_a:lla 		{: RESULT = new ValueNode(new Type(types.CHAR), lla.toString().charAt(0), llaright, llaleft);	:} 
-					| llave_c:llc		{: RESULT = new ValueNode(new Type(types.CHAR), llc.toString().charAt(0), llcright, llcleft);	:} 
-					| puntocoma:pcm 	{: RESULT = new ValueNode(new Type(types.CHAR), pcm.toString().charAt(0), pcmright, pcmleft);	:} 
-					| punto:pnt			{: RESULT = new ValueNode(new Type(types.CHAR), pnt.toString().charAt(0), pntright, pntleft);	:} 
-					| barra:brr			{: RESULT = new ValueNode(new Type(types.CHAR), brr.toString().charAt(0), brrright, brrleft);	:} 
-					| por:por			{: RESULT = new ValueNode(new Type(types.CHAR), por.toString().charAt(0), porright, porleft);	:} 
-					| mas:mas			{: RESULT = new ValueNode(new Type(types.CHAR), mas.toString().charAt(0), masright, masleft);	:} 
-					| inter:qst			{: RESULT = new ValueNode(new Type(types.CHAR), qst.toString().charAt(0), qstright, qstleft);	:} 
+//Caracteres ✓
+CARACTERES 		::=   CARACTER:n1 {: RESULT = n1; :}
+					| ESPECIAL:n1 {: RESULT = n1; :}
+					;
+
+//Caracter ✓
+CARACTER 		::=   letra:let	 		{: RESULT = new ValueNode(new Type(types.CHAR), let, letright, letleft);	:}
+					| numero:num		{: RESULT = new ValueNode(new Type(types.CHAR), num, numright, numleft);	:} 
+					| simbolo:sim		{: RESULT = new ValueNode(new Type(types.CHAR), sim, simright, simleft);	:} 
+					| coma:com			{: RESULT = new ValueNode(new Type(types.CHAR), com, comright, comleft);	:} 
+					| dospuntos:dpt		{: RESULT = new ValueNode(new Type(types.CHAR), dpt, dptright, dptleft);	:} 
+					| llave_a:lla 		{: RESULT = new ValueNode(new Type(types.CHAR), lla, llaright, llaleft);	:} 
+					| llave_c:llc		{: RESULT = new ValueNode(new Type(types.CHAR), llc, llcright, llcleft);	:} 
+					| puntocoma:pcm 	{: RESULT = new ValueNode(new Type(types.CHAR), pcm, pcmright, pcmleft);	:} 
+					| punto:pnt			{: RESULT = new ValueNode(new Type(types.CHAR), pnt, pntright, pntleft);	:} 
+					| barra:brr			{: RESULT = new ValueNode(new Type(types.CHAR), brr, brrright, brrleft);	:} 
+					| por:por			{: RESULT = new ValueNode(new Type(types.CHAR), por, porright, porleft);	:} 
+					| mas:mas			{: RESULT = new ValueNode(new Type(types.CHAR), mas, masright, masleft);	:} 
+					| inter:qst			{: RESULT = new ValueNode(new Type(types.CHAR), qst, qstright, qstleft);	:} 
 					;
 
 // Simbolo Especial

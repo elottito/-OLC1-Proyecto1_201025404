@@ -4,10 +4,9 @@
 package com.usac.olc1.analizadores;
 import java_cup.runtime.Symbol;
 
-import com.usac.olc1.App;
-import com.usac.olc1.gui.Consola;
 import com.usac.olc1.nodos.ErrorNode;
 import com.usac.olc1.st.ExceptionST;
+import com.usac.olc1.st.Tree;
 import com.usac.olc1.st.TypeError;
 
 %%
@@ -15,8 +14,8 @@ import com.usac.olc1.st.TypeError;
 /* ---------------------------------------------------
    O P C I O N E S    Y    D E C L A R A C I O N E S
 ---------------------------------------------------- */
-%cupsym TablaSimbolos
-%class AnalizadorLexico
+%cupsym TSymbol
+%class Lexico
 %public
 %cup
 %line
@@ -26,12 +25,6 @@ import com.usac.olc1.st.TypeError;
 
 // Estados	
 %state CADENA 
-
-%init{
-	// Indicando en el constructor que filas y columnas empiecen en uno y no en cero
-	yychar = 1;
-	yyline = 1;
-%init}
 
 // Metodo de Salida - Codigo en Java
 %{
@@ -44,14 +37,18 @@ import com.usac.olc1.st.TypeError;
 	* @param line Fila.
 	* @param column Columna.
 	*/
-	public void findErrorLexico(String lexema, int line, int column){		
+	public Tree findErrorLexico(String lexema, int line, int column){		
 		String tipoError = TypeError.typesError.LEXICO.toString();
 		String descripcion = "El caracter <b>" + lexema + "</b> no pertenece al lenguaje";
 		column = column + 1;
+		line = line + 1;
 		ExceptionST error = new ExceptionST(tipoError, descripcion, line, column);
 		ErrorNode en = new ErrorNode(error , line, column );
-		App.tree.arbol.console.add("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");
-		App.tree.arbol.exceptions.add(error);
+		
+		Tree t = new Tree(null);
+		t.console.add("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");
+		t.exceptions.add(error);
+		return t;
 	}
 %}
 
@@ -106,38 +103,38 @@ COMENTARIOS 			= {COMENTARIO_SIMPLE} | {COMENTARIO_MULTILINEA}
 ------------------------------------------ */
 <YYINITIAL>{
 	// Palabras Reservadas
-	{CONJ} 				{	return new Symbol(TablaSimbolos.conj, 			yycolumn, yyline, yytext()); }
+	{CONJ} 				{	return new Symbol(TSymbol.conj, 		yycolumn, yyline, yytext()); }
 
 	// Simbolos
-	{COMA}				{	return new Symbol(TablaSimbolos.coma,			yycolumn, yyline, yytext()); }
-	{DOSPUNTOS}			{	return new Symbol(TablaSimbolos.dospuntos,		yycolumn, yyline, yytext()); }
-	{FLECHA}			{	return new Symbol(TablaSimbolos.flecha,			yycolumn, yyline, yytext()); }
-	{LLAVE_A}			{	return new Symbol(TablaSimbolos.llave_a,		yycolumn, yyline, yytext()); }
-	{LLAVE_C}			{	return new Symbol(TablaSimbolos.llave_c,		yycolumn, yyline, yytext()); }
-	{PUNTOCOMA}			{	return new Symbol(TablaSimbolos.puntocoma,		yycolumn, yyline, yytext()); }
-	{PERCENT_D}			{	return new Symbol(TablaSimbolos.percent_d,		yycolumn, yyline, yytext()); }
-	{VIRGULILLA}		{	return new Symbol(TablaSimbolos.virgulilla,		yycolumn, yyline, yytext()); }
+	{COMA}				{	return new Symbol(TSymbol.coma,			yycolumn, yyline, yytext()); }
+	{DOSPUNTOS}			{	return new Symbol(TSymbol.dospuntos,	yycolumn, yyline, yytext()); }
+	{FLECHA}			{	return new Symbol(TSymbol.flecha,		yycolumn, yyline, yytext()); }
+	{LLAVE_A}			{	return new Symbol(TSymbol.llave_a,		yycolumn, yyline, yytext()); }
+	{LLAVE_C}			{	return new Symbol(TSymbol.llave_c,		yycolumn, yyline, yytext()); }
+	{PUNTOCOMA}			{	return new Symbol(TSymbol.puntocoma,	yycolumn, yyline, yytext()); }
+	{PERCENT_D}			{	return new Symbol(TSymbol.percent_d,	yycolumn, yyline, yytext()); }
+	{VIRGULILLA}		{	return new Symbol(TSymbol.virgulilla,	yycolumn, yyline, yytext()); }
 
 	//Operadores
-	{PUNTO}				{	return new Symbol(TablaSimbolos.punto,			yycolumn, yyline, yytext()); }
-	{BARRA}				{	return new Symbol(TablaSimbolos.barra,			yycolumn, yyline, yytext()); }
-	{POR}				{	return new Symbol(TablaSimbolos.por,			yycolumn, yyline, yytext()); }
-	{MAS}				{	return new Symbol(TablaSimbolos.mas,			yycolumn, yyline, yytext()); }
-	{INTER}				{	return new Symbol(TablaSimbolos.inter,			yycolumn, yyline, yytext()); }
+	{PUNTO}				{	return new Symbol(TSymbol.punto,		yycolumn, yyline, yytext()); }
+	{BARRA}				{	return new Symbol(TSymbol.barra,		yycolumn, yyline, yytext()); }
+	{POR}				{	return new Symbol(TSymbol.por,			yycolumn, yyline, yytext()); }
+	{MAS}				{	return new Symbol(TSymbol.mas,			yycolumn, yyline, yytext()); }
+	{INTER}				{	return new Symbol(TSymbol.inter,		yycolumn, yyline, yytext()); }
 
 	//Simbolos Especiales
-	{SALTO_LINEA}		{	return new Symbol(TablaSimbolos.salto_linea,	yycolumn, yyline, yytext()); }
-	{SIM_COM_DOB}		{	return new Symbol(TablaSimbolos.sim_com_dob,	yycolumn, yyline, yytext()); }
-	{SIM_COM_SIM}		{	return new Symbol(TablaSimbolos.sim_com_sim,	yycolumn, yyline, yytext()); }
+	{SALTO_LINEA}		{	return new Symbol(TSymbol.salto_linea,	yycolumn, yyline, yytext()); }
+	{SIM_COM_DOB}		{	return new Symbol(TSymbol.sim_com_dob,	yycolumn, yyline, yytext()); }
+	{SIM_COM_SIM}		{	return new Symbol(TSymbol.sim_com_sim,	yycolumn, yyline, yytext()); }
 
 	// Cadena
 	{COMILLA}			{	yybegin(CADENA);	}
 	
 	// Expresiones Regulares
-	{LETRA}				{	return new Symbol(TablaSimbolos.letra, 			yycolumn, yyline, yytext()); }
-	{NUMERO}			{	return new Symbol(TablaSimbolos.numero, 		yycolumn, yyline, yytext()); }
-	{ID}				{	return new Symbol(TablaSimbolos.id, 			yycolumn, yyline, yytext()); }
-	{SIMBOLO}			{	return new Symbol(TablaSimbolos.simbolo, 		yycolumn, yyline, yytext()); }
+	{LETRA}				{	return new Symbol(TSymbol.letra, 		yycolumn, yyline, yytext()); }
+	{NUMERO}			{	return new Symbol(TSymbol.numero, 		yycolumn, yyline, yytext()); }
+	{ID}				{	return new Symbol(TSymbol.id, 			yycolumn, yyline, yytext()); }
+	{SIMBOLO}			{	return new Symbol(TSymbol.simbolo, 		yycolumn, yyline, yytext()); }
 
 	// Espacios en Blanco
 	{BLANCOS}			{	/* Se Ignoran los Espacios en Blanco*/		}
@@ -154,7 +151,7 @@ COMENTARIOS 			= {COMENTARIO_SIMPLE} | {COMENTARIO_MULTILINEA}
 		String strTemporal = strCadena;
 		strCadena = ""; // Se limpia para que una siguiente cadena que pueda venir
 		yybegin(YYINITIAL);
-		return new Symbol(TablaSimbolos.cadena, yycolumn, yyline, strTemporal);
+		return new Symbol(TSymbol.cadena, yycolumn, yyline, strTemporal);
 	}
 	[^"\""]				{   strCadena += yytext();  }
 }

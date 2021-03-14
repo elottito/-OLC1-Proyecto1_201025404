@@ -6,7 +6,7 @@
 package com.usac.olc1.analizadores;
 
 /** CUP generated class containing symbol constants. */
-public class TablaSimbolos {
+public class TSymbol {
   /* terminals */
   public static final int sim_com_dob = 5;
   public static final int sim_com_sim = 6;

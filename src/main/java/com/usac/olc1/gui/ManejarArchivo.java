@@ -1,21 +1,11 @@
 package com.usac.olc1.gui;
 
-import com.usac.olc1.App;
-import com.usac.olc1.analizadores.AnalizadorLexico;
-import com.usac.olc1.analizadores.AnalizadorSintactico;
-import com.usac.olc1.nodos.DeclareConjunto;
-import com.usac.olc1.nodos.ErrorNode;
-import com.usac.olc1.nodos.Node;
-import com.usac.olc1.st.SymbolTableManager;
 import com.usac.olc1.st.Tree;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Map;
 import java.io.FileWriter;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -136,93 +126,5 @@ public class ManejarArchivo {
             System.out.println("Excepcion: " + e);
         }
         return strTexto;
-    }
-
-    /**
-     * Reporte de Errores
-     * 
-     * @param texto
-     */
-    private void reporteErrores() {
-        GenerarHTML gh = new GenerarHTML();
-        gh.crearHtmlError();
-        if (App.listaErrores.isEmpty()) {
-            Consola.println("No hay errores lexicos o sintacticos");
-        } else {
-            Consola.println("Hay Errores - Verificar Reporte HTML");
-        }
-    }
-
-    /**
-     * Ejecuta los Analisis Lexicos y Sintacticos
-     * 
-     * @param texto codigo del archivo
-     */
-    public void ejecutarAnalisis(String texto) {
-        try {
-            Consola.println("-> Iniciando Analisis...");
-
-            AnalizadorLexico lexico = new AnalizadorLexico(new BufferedReader(new StringReader(texto)));
-            AnalizadorSintactico sintactico = new AnalizadorSintactico(lexico);
-
-            // Creando Tabla de Simbolos
-            SymbolTableManager table = new SymbolTableManager();
-            Object obj = (Object) sintactico.parse().value;
-            App.tree.arbol = (Tree) obj;
-            //Tree tree = (Tree) obj;
-
-            // Primera Pasada al Arbol
-            for (Node inst : App.tree.arbol.instructions) {
-                // if (inst instanceof DeclareConjunto){
-                inst.execute(table, App.tree.arbol);
-                // }
-            }
-
-            // Consola LOG
-            /*
-            Consola.println("Consola LOG...");
-            for (int i = 0; i <= tree.console.size() - 1; i++) {
-                Consola.println(tree.console.get(i));
-            }
-            */
-
-            // Errores
-            /*
-            for (Node inst : tree.instructions) {
-                if (inst instanceof ErrorNode) {
-                    inst.execute(table, tree);
-                    System.out.println("Errores....");
-                }
-            }
-            */
-
-            for (int i = 0; i <= App.tree.arbol.exceptions.size() - 1; i++) {
-                // Consola.println( tree.consoexcle.get(i) );
-                String tipoError = App.tree.arbol.exceptions.get(i).getTipo();
-                String description = App.tree.arbol.exceptions.get(i).getDescripcion();
-                int line = App.tree.arbol.exceptions.get(i).getFila();
-                int column = App.tree.arbol.exceptions.get(i).getColumna();
-
-                System.out.println("Error:       " + i);
-                System.out.println("Tipo:        " + tipoError);
-                System.out.println("Descripcion: " + description);
-                System.out.println("Fila:        " + line);
-                System.out.println("Columna:     " + column);
-
-            }
-
-            Consola.println("-> Fin de Analisis");
-
-            // Mensaje de Informacion
-            javax.swing.JOptionPane.showMessageDialog(null, "Analisis Léxico y Sintactico Finalizado", "Información",
-                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-            // Mostrar errores en pagina HTML
-            //reporteErrores();
-
-        } catch (Exception ex) {
-            System.out.println(ex);
-            System.out.println("Error al correr el Analisis -->" + ex);
-        }
-    }
+    }    
 }
