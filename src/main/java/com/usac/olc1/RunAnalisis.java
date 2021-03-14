@@ -13,15 +13,17 @@ import com.usac.olc1.st.Tree;
 
 public class RunAnalisis {
 
+    public Tree tree;
+
     /**
-     * Inicia el Analisis <i>lexico, sintactico y semantico</i>
-     * @param texto codigo del archivo
+     * Inicia el Analisis lexico, sintactico y semantico
+     * @param codigo codigo del archivo
      */
-    public void ejecutarAnalisis(String texto) {
+    public void ejecutarAnalisis(String codigo) {
         try {
             Consola.println("-> Iniciando Analisis...");
             // Generando jFlex y Cup
-            Lexico lexico = new Lexico(new BufferedReader(new StringReader(texto)));
+            Lexico lexico = new Lexico(new BufferedReader(new StringReader(codigo)));
             Sintactico sintactico = new Sintactico(lexico);
 
             // Creando Tabla de Simbolos
@@ -31,19 +33,20 @@ public class RunAnalisis {
             
             // Creando Tree
             Object obj = (Object) sintactico.parse().value;
-            Tree tree = (Tree) obj;
+            tree = (Tree) obj;
             
             // Primera Pasada al Arbol
             for (Node inst : tree.instructions) {
                 inst.execute(table, tree);
             }
 
-            // Cerrando la Tabla
-            table.closeContext();
-            Consola.println("-> Fin de Analisis");
+            // Mostrar Log y Errores 
+            this.printLog(tree); 
+            this.showErrores(tree); 
 
-            // Mostrar Errores 
-            this.showErrores(tree);
+             // Cerrando la Tabla
+             table.closeContext();
+             Consola.println("-> Fin de Analisis");
 
             // Mensaje de Informacion
             javax.swing.JOptionPane.showMessageDialog(null, "Analisis Léxico y Sintactico Finalizado", "Información",
@@ -55,19 +58,16 @@ public class RunAnalisis {
         }
     }
 
-
-    /*
-    private void printLog(Tree tree) {
-        Consola.println("Consola LOG...");
-        for (int i = 0; i <= tree.console.size() - 1; i++) {
-            Consola.println(tree.console.get(i));
-        }
-    }
-    */
-
     private void showErrores(Tree tree) {
         GenerarHTML g = new GenerarHTML();
         g.crearHtmlError(tree);
     }
+
+    private void printLog(Tree tree) {
+        for (int i = 0; i < tree.console.size(); i++) {
+            Consola.println(tree.console.get(i));
+        }
+    }
+    
 
 }

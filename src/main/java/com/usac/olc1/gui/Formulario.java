@@ -6,6 +6,7 @@
 package com.usac.olc1.gui;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.usac.olc1.RunAnalisis;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;

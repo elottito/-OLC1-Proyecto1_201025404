@@ -257,7 +257,7 @@ public class Lexico implements java_cup.runtime.Scanner {
     column = column + 1;
     line = line + 1;
     ExceptionST error = new ExceptionST(tipoError, descripcion, line, column);
-    //ErrorNode en = new ErrorNode(error, line, column);
+    ErrorNode en = new ErrorNode(error, line, column);
 
     Tree t = new Tree(null);
     t.console.add("Error Lexico: -----> " + lexema + "\t[" + line + "," + column + "]");

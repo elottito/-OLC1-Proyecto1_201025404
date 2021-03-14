@@ -62,14 +62,12 @@ terminal String simbolo, numero, punto, barra, por, mas, inter;
 
 // N O    T E R M I N A L E S					
 non terminal Tree   INICIO;
-non terminal Node	LISTA_STMT, STMT, SEPARADOR, LISTA_VALIDAR;
+non terminal Node	L_STMT, STMT, SEPARADOR, L_VALIDAR;
 non terminal Node	CONJUNTO, DEFINICION, INTERVALO;
 non terminal Node	EXPREREGULAR, EXPR, VALIDAR;
-non terminal Node	CARACTER, ESPECIAL;
+non terminal Node	CARACTERES, CARACTER, ESPECIAL;
 non terminal String IDENTIFICADOR;
-
 non terminal ArrayList<Node> L_CARACTERES;
-non terminal Node 	CARACTERES;
 
 // Precedencias
 precedence left punto;	// a.b
@@ -83,38 +81,25 @@ precedence left por, mas;	// Cerradura de Kleane
 
 start with INICIO;
 
-INICIO 			::= llave_a LISTA_STMT:lista SEPARADOR LISTA_VALIDAR llave_c 	{:  RESULT = new Tree(stackNode);  :}
+INICIO 			::= llave_a L_STMT:lista SEPARADOR L_VALIDAR llave_c 	{:  RESULT = new Tree(stackNode);  :}
 					;
 
-LISTA_STMT 		::= LISTA_STMT:n1 STMT:n2 		{: stackNode.push(n2);  RESULT = n2;  :}
-					| STMT:n1 					{: stackNode.push(n1);  RESULT = n1;  :}
+L_STMT 			::= L_STMT:n1 STMT:n2 		{: stackNode.push(n2);  RESULT = n2;  :}
+					| STMT:n1 				{: stackNode.push(n1);  RESULT = n1;  :}
 					;
 
-STMT			::= CONJUNTO:n1 				{: RESULT = n1;  :} 
+STMT			::=  CONJUNTO:n1 				{: RESULT = n1;  :} 
 					| EXPREREGULAR
 					;
-LISTA_VALIDAR	::= LISTA_VALIDAR VALIDAR 
+
+//Lista de Validaciones
+L_VALIDAR			::= L_VALIDAR VALIDAR 
 					| VALIDAR
 					;
-
-//Conjuntos
-CONJUNTO 		::=	conj dospuntos IDENTIFICADOR:id flecha DEFINICION:value puntocoma 
-					{: RESULT = new DeclareConjunto( new Type(types.CONJUNTO), id, value, idright, idleft); :}
-					;
-
-//Definicion
-DEFINICION		::=	  INTERVALO:n1		{: RESULT = n1;									:}
-					| L_CARACTERES:n1	{: RESULT = new ListCharNode(n1, n1right, n1left); :}			
+					
+//Validar definiciones
+VALIDAR 		::=   IDENTIFICADOR dospuntos cadena puntocoma 
 					| error
-					;
-
-//Intervalo ✓
-INTERVALO		::=	CARACTER:n1 virgulilla CARACTER:n2 		{: RESULT = new IntervaloNode(n1, n2, n1right, n1left); :}
-					;
-
-//Lista de Caracteres 
-L_CARACTERES	::=   L_CARACTERES:n1 coma CARACTERES:n2	{: RESULT = n1; 				RESULT.add(n2);	:}
-					| CARACTERES:n1 						{: RESULT = new ArrayList<>();	RESULT.add(n1);	:}
 					;
 
 //Expresiones Regulares
@@ -125,15 +110,30 @@ EXPR			::=   punto EXPR EXPR
 					| mas EXPR 
 					| inter EXPR 
 					| llave_a IDENTIFICADOR llave_c 
-					| cadena 
-					| ESPECIAL
-					| error;
-
-//Validar definiciones
-VALIDAR 		::=   IDENTIFICADOR dospuntos cadena puntocoma 
+					| ESPECIAL 								
+					| cadena
 					| error
 					;
 
+//Conjuntos ✓
+CONJUNTO 		::=	conj dospuntos IDENTIFICADOR:id flecha DEFINICION:value puntocoma 
+					{: RESULT = new DeclareConjunto( new Type(types.CONJUNTO), id, value, idright, idleft); :}
+					;
+
+//Definicion ✓
+DEFINICION		::=	  INTERVALO:n1		{: RESULT = n1;										:}
+					| L_CARACTERES:n1	{: RESULT = new ListCharNode(n1, n1right, n1left); 	:}			
+					| error
+					;
+
+//Intervalo ✓
+INTERVALO		::=	CARACTER:c1 virgulilla CARACTER:c2 		{: RESULT = new IntervaloNode(c1, c2, c1right, c1left); :}
+					;
+
+//Lista de Caracteres ✓
+L_CARACTERES	::=   L_CARACTERES:c1 coma CARACTERES:c2	{: RESULT = c1; 				RESULT.add(c2);	:}
+					| CARACTERES:c1 						{: RESULT = new ArrayList<>();	RESULT.add(c1);	:}
+					;
 //Separador ✓
 SEPARADOR		::=   percent_d percent_d 
 					| error
@@ -145,8 +145,8 @@ IDENTIFICADOR 	::=   id:id				{: RESULT = id;		:}
 					;
 
 //Caracteres ✓
-CARACTERES 		::=   CARACTER:n1 {: RESULT = n1; :}
-					| ESPECIAL:n1 {: RESULT = n1; :}
+CARACTERES 		::=   CARACTER:car 		{: RESULT = car; :}
+					| ESPECIAL:esp 		{: RESULT = esp; :}
 					;
 
 //Caracter ✓
@@ -165,7 +165,7 @@ CARACTER 		::=   letra:let	 		{: RESULT = new ValueNode(new Type(types.CHAR), le
 					| inter:qst			{: RESULT = new ValueNode(new Type(types.CHAR), qst, qstright, qstleft);	:} 
 					;
 
-// Simbolo Especial
+// Simbolo Especial ✓
 ESPECIAL		::=   sim_com_dob:scd	{: RESULT = new ValueNode(new Type(types.STRING), scd, scdright, scdleft);	:} 
 					| sim_com_sim:scs	{: RESULT = new ValueNode(new Type(types.STRING), scs, scsright, scsleft);	:} 
 					| salto_linea:sli	{: RESULT = new ValueNode(new Type(types.STRING), sli, sliright, slileft);	:} 
